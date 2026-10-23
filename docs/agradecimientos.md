@@ -14,6 +14,8 @@ En toda tesis, artículo, póster o presentación que haya usado Chuchunco:
 
 Un formulario por producto (paper, tesis, dataset, póster, software):
 
-**<https://forms.gle/wJYGYYy1hM35aRMd6>**
+**{{ formulario-enlace: productos }}**
+
+{{ formulario: productos }}
 
 Si publicaste sin incluir el agradecimiento, escríbenos igual: podemos emitir una carta de respaldo para contabilizar el producto.

@@ -1,6 +1,6 @@
 site_name: C3P · Clúster Chuchunco
 site_description: Guía de usuario del clúster de cómputo de alto rendimiento del Departamento de Física, USACH
-site_url: https://c3p.fisica.usach.cl/
+site_url: https://c3p.usach.cl/     # también da el <link rel="canonical"> (el espejo en GitHub Pages apunta aquí)
 copyright: Departamento de Física · Universidad de Santiago de Chile · FONDEQUIP EQM230160
 use_directory_urls: false   # enlaces .html: funciona en servidor y abriendo los archivos locales
 theme:
@@ -31,10 +31,30 @@ theme:
       toggle: {icon: material/weather-sunny, name: Cambiar a modo claro}
 extra_css:
   - stylesheets/usach.css
+extra:
+  # Formularios: una URL por formulario, y solo aquí. Las páginas los nombran por clave
+  # ({{ formulario-enlace: clave }} y {{ formulario: clave }}, ver hooks/formularios.py).
+  # Una URL https://docs.google.com/forms/d/e/<id>/viewform se muestra incrustada;
+  # un enlace corto (forms.gle) solo como enlace. Clave vacía = formulario aún no publicado.
+  formularios:
+    acceso: https://forms.gle/NeAfebdcvRbvPmyg9      # solicitud de cuenta vigente; se retira con F1/F2 (P1.3)
+    productos: https://forms.gle/wJYGYYy1hM35aRMd6   # registro de productos vigente; F4 (P1.1) la reemplaza
+    # Fase 1 (P-12): pegar aquí la URL .../viewform de cada Google Form cuando exista.
+    proyecto:     # F1 · solicitar un proyecto (PI)
+    unirse:       # F2 · unirse a un proyecto (cuenta)
+    soporte:      # F3 · soporte
+    # F4 · registro de productos: reemplazar la URL de «productos» de arriba
+hooks:
+  - hooks/formularios.py
 plugins:
   - search:
       lang: es
   - offline                  # permite abrir site/index.html directamente (búsqueda incluida)
+validation:                # con --strict, cualquier enlace interno roto detiene el build
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
 markdown_extensions:
   - admonition
   - pymdownx.details

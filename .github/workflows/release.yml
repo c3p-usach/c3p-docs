@@ -1,0 +1,48 @@
+name: Release
+
+# Tag vYYYY.MM.DD -> build + site-<tag>.tar.gz y .sha256 adjuntos a un release de
+# GitHub. En la VM c3p se instala con `sudo publish-c3p-site <tag>`
+# (deploy/publish-site.sh). Pasos completos en docs-dev/DEPLOY.md.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: pip install -r requirements.txt
+      - run: mkdocs build --strict
+      - name: Stamp build info
+        run: echo "${GITHUB_REF_NAME} ${GITHUB_SHA::7} $(date -u +%Y-%m-%dT%H:%MZ)" > site/build-info.txt
+      - name: Package release
+        run: |
+          tar -czf "site-${GITHUB_REF_NAME}.tar.gz" -C site .
+          sha256sum "site-${GITHUB_REF_NAME}.tar.gz" > "site-${GITHUB_REF_NAME}.tar.gz.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-release
+          path: site-*.tar.gz*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-release
+      - name: Create GitHub release with the built site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" site-*.tar.gz site-*.tar.gz.sha256 \
+            --repo "$GITHUB_REPOSITORY" --title "Site $GITHUB_REF_NAME" \
+            --notes "Built site for c3p.usach.cl. Install on the c3p VM with: sudo publish-c3p-site $GITHUB_REF_NAME"

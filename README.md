@@ -18,20 +18,16 @@ También se puede abrir `site/index.html` directamente (doble clic): el plugin `
 
 ## Publicar
 
-**Interino — GitHub Pages:** subir este directorio a un repo de GitHub (p. ej. `c3p-usach/docs`). El workflow `.github/workflows/deploy.yml` construye y publica en cada push a `main` (activar Pages → Source: GitHub Actions en la configuración del repo).
+El sitio canónico es **https://c3p.usach.cl/** (VM c3p, archivos en `/var/www/c3p`). `c3p.fisica.usach.cl` ya no se usa.
 
-**Definitivo — c3p.fisica.usach.cl (VM 158.170.68.239):** requiere que SEGIC abra 80/443 o configure un túnel Cloudflare. Luego:
+- **Por tag (sitio canónico):** al empujar un tag `vYYYY.MM.DD`, GitHub Actions (`release.yml`) construye el sitio y adjunta `site-<tag>.tar.gz` + `.sha256` a un release. En la VM, `sudo publish-c3p-site <tag>` (`deploy/publish-site.sh`) lo descarga, verifica, respalda el sitio vigente e instala. Pasos completos (instalación única, cada release, volver atrás, alternativa sin GitHub) en [`docs-dev/DEPLOY.md`](docs-dev/DEPLOY.md).
+- **Espejo — GitHub Pages:** `mirror.yml` publica <https://c3p-usach.github.io/c3p-docs/> en cada push a `main`. Su `<link rel="canonical">` apunta a c3p.usach.cl (por `site_url`), para que los buscadores indexen el sitio canónico.
+- **CI:** `ci.yml` corre `mkdocs build --strict` y una revisión de enlaces internos en cada push y PR.
 
-```bash
-# una vez, en la VM
-sudo apt install -y nginx certbot python3-certbot-nginx
-sudo mkdir -p /var/www/c3p && sudo chown $USER /var/www/c3p
-# configurar server_name c3p.fisica.usach.cl con root /var/www/c3p
+## Formularios
 
-# cada actualización, desde tu computador
-mkdocs build && rsync -avz --delete site/ c3p-fisica:/var/www/c3p/
-```
+Las URL de los formularios están en un solo lugar: `extra.formularios` en `mkdocs.yml`. Las páginas los nombran por clave (`{{ formulario-enlace: clave }}`, `{{ formulario: clave }}`) y `hooks/formularios.py` pone el enlace o el Google Form incrustado. Ver la tabla en `docs-dev/DEPLOY.md`.
 
 ## Pendientes («por confirmar» en el sitio)
 
-`grep -rn "por confirmar" docs/` lista todo lo que falta. La mayoría se resuelve con el levantamiento as-built del head node (`../11-operacion-admin/`) y la respuesta de XI: límites de tiempo, cuotas, rutas de `/data`, `seff`/correo, Jupyter, cantidad de MI210.
+`grep -rn "por confirmar" docs/` lista todo lo que falta. La mayoría se resuelve con el levantamiento as-built del head node (`Projects/hpc-fisica/11-operacion-admin/estado-actual.md`) y la respuesta de XI: límites de tiempo, cuotas, rutas de `/data`, `seff`/correo, Jupyter, cantidad de MI210.
