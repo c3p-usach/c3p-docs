@@ -102,3 +102,19 @@
 
 /* Nombres de nodos/particiones sin cortes de línea dentro de tablas */
 .md-typeset table:not([class]) code { white-space: nowrap; }
+
+/* ---------- Google Forms incrustados (hooks/formularios.py) ---------- */
+.md-typeset .c3p-formulario {
+  margin: 1em 0 .5em;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .2rem;
+  overflow: hidden;
+}
+.md-typeset .c3p-formulario iframe {
+  display: block;
+  width: 100%;
+  height: 80vh;
+  min-height: 32rem;
+  border: 0;
+}
+.md-typeset .c3p-formulario-alt { font-size: .85em; }
