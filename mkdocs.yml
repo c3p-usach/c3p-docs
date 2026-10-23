@@ -1,0 +1,66 @@
+site_name: C3P · Clúster Chuchunco
+site_description: Guía de usuario del clúster de cómputo de alto rendimiento del Departamento de Física, USACH
+site_url: https://c3p.fisica.usach.cl/
+copyright: Departamento de Física · Universidad de Santiago de Chile · FONDEQUIP EQM230160
+use_directory_urls: false   # enlaces .html: funciona en servidor y abriendo los archivos locales
+theme:
+  name: material
+  language: es
+  logo: assets/logo-c3p.svg
+  favicon: assets/logo-c3p.svg
+  font:
+    text: Nunito Sans          # tipografía recomendada por el Manual de Normas Gráficas USACH
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle: {icon: material/weather-night, name: Cambiar a modo oscuro}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle: {icon: material/weather-sunny, name: Cambiar a modo claro}
+extra_css:
+  - stylesheets/usach.css
+plugins:
+  - search:
+      lang: es
+  - offline                  # permite abrir site/index.html directamente (búsqueda incluida)
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed: {alternate_style: true}
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - tables
+  - toc: {permalink: true}
+nav:
+  - Inicio: index.md
+  - Acceso:
+      - Solicitar una cuenta: acceso/solicitar-cuenta.md
+      - Conectarse por SSH: acceso/conectarse.md
+      - Reglas de uso: acceso/reglas.md
+  - Uso del clúster:
+      - Primeros pasos con Slurm: uso/slurm.md
+      - Ejemplos de trabajos: uso/ejemplos.md
+      - GPUs: uso/gpu.md
+      - Contenedores (Pyxis/Enroot): uso/contenedores.md
+      - Almacenamiento y datos: uso/almacenamiento.md
+  - Preguntas frecuentes: faq.md
+  - Agradecimientos y productos: agradecimientos.md
+  - Contacto: contacto.md

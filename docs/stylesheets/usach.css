@@ -1,0 +1,104 @@
+/* Identidad visual C3P — paleta del Manual de Normas Gráficas USACH 2024.
+   Principales: teal #00A499 (Pantone 3272), naranjo #E77500 (Pantone 716), gris pizarra #394049 (Pantone 432).
+   Títulos: Bebas Neue (fuente principal USACH). Texto: Nunito Sans (fuente auxiliar recomendada para web).
+   Contraste WCAG AA: el teal puro sobre blanco no alcanza 4,5:1, por eso los enlaces usan una variante más oscura. */
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
+:root {
+  --usach-teal: #00A499;
+  --usach-teal-dark: #00756D;   /* 5,3:1 sobre blanco */
+  --usach-orange: #E77500;
+  --usach-slate: #394049;
+  --usach-slate-dark: #2A3037;
+}
+
+/* ---------- Modo claro ---------- */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--usach-slate);
+  --md-primary-fg-color--light: #4B535D;
+  --md-primary-fg-color--dark: var(--usach-slate-dark);
+  --md-primary-bg-color: #FFFFFF;
+  --md-accent-fg-color: var(--usach-orange);
+  --md-accent-fg-color--transparent: rgba(231, 117, 0, .1);
+  --md-typeset-a-color: var(--usach-teal-dark);
+  --md-default-fg-color: rgba(57, 64, 73, .92);
+  --md-default-fg-color--light: rgba(57, 64, 73, .64);
+  --md-footer-bg-color: var(--usach-slate);
+  --md-footer-bg-color--dark: var(--usach-slate-dark);
+  --c3p-table-head: #E6F6F5;
+}
+
+/* ---------- Modo oscuro (fondo gris pizarra, no negro) ---------- */
+[data-md-color-scheme="slate"] {
+  --md-hue: 213;
+  --md-default-bg-color: #23282E;
+  --md-primary-fg-color: var(--usach-slate-dark);
+  --md-primary-fg-color--light: var(--usach-slate);
+  --md-primary-fg-color--dark: #1C2025;
+  --md-primary-bg-color: #FFFFFF;
+  --md-accent-fg-color: #FF9A33;
+  --md-accent-fg-color--transparent: rgba(255, 154, 51, .12);
+  --md-typeset-a-color: #3CCFC3;
+  --md-footer-bg-color: #1C2025;
+  --md-footer-bg-color--dark: #16191D;
+  --c3p-table-head: rgba(0, 164, 153, .18);
+}
+
+/* Franja institucional bajo el encabezado: teal + naranjo */
+.md-header {
+  box-shadow: none;
+  border-bottom: 4px solid var(--usach-teal);
+  border-image: linear-gradient(to right, var(--usach-teal) 0 70%, var(--usach-orange) 70% 100%) 1;
+}
+.md-tabs { background-color: var(--md-primary-fg-color); }
+.md-tabs__link--active, .md-tabs__link:hover { color: #FFFFFF; }
+.md-tabs__item--active { box-shadow: inset 0 -3px 0 var(--usach-orange); }
+
+/* Títulos en Bebas Neue */
+.md-header__topic:first-child, .md-typeset h1, .md-typeset h2 {
+  font-family: "Bebas Neue", "Nunito Sans", Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: .02em;
+}
+.md-header__topic:first-child { font-size: 1.15rem; }
+.md-typeset h1 {
+  color: var(--md-default-fg-color);
+  font-size: 2.6em;
+  margin-bottom: .6em;
+}
+.md-typeset h1::after {
+  content: ""; display: block; width: 3rem; height: 4px; margin-top: .3rem;
+  background: var(--usach-orange); border-radius: 2px;
+}
+.md-typeset h2 { font-size: 1.8em; color: var(--md-typeset-a-color); }
+.md-typeset h3 { font-weight: 700; }
+
+/* Tablas */
+.md-typeset table:not([class]) { border-radius: 6px; font-size: .75rem; }
+.md-typeset table:not([class]) th { background: var(--c3p-table-head); color: var(--md-default-fg-color); }
+
+/* Tarjetas de la portada */
+.md-typeset .grid.cards > ul > li {
+  border-top: 4px solid var(--usach-teal);
+  border-radius: 8px;
+}
+.md-typeset .grid.cards > ul > li:nth-child(2) { border-top-color: var(--usach-orange); }
+.md-typeset .grid.cards > ul > li:nth-child(3) { border-top-color: #498BCA; }
+.md-typeset .grid.cards > ul > li:nth-child(4) { border-top-color: #8C4799; }
+.md-typeset .grid.cards .twemoji { color: var(--md-typeset-a-color); }
+
+/* Bloque de bienvenida */
+.c3p-hero {
+  background: var(--usach-slate);
+  color: #FFFFFF;
+  border-left: 6px solid var(--usach-orange);
+  border-radius: 8px;
+  padding: 1rem 1.4rem;
+  margin: 0 0 1.5rem;
+}
+.c3p-hero p { margin: .3rem 0; }
+.c3p-hero strong { color: #6FE0D6; }
+[data-md-color-scheme="slate"] .c3p-hero { background: #2E343B; }
+
+/* Nombres de nodos/particiones sin cortes de línea dentro de tablas */
+.md-typeset table:not([class]) code { white-space: nowrap; }
