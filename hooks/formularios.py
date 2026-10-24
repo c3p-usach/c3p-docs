@@ -2,8 +2,8 @@
 
 Las URL viven en `extra.formularios` de mkdocs.yml; las páginas solo nombran la clave:
 
-    {{ formulario-enlace: unirse | acceso }}   en línea: enlace a la primera URL definida
-    {{ formulario: unirse | acceso }}          en su propia línea: Google Form incrustado
+    {{ formulario-enlace: unirse | proyecto }} en línea: enlace a la primera URL definida
+    {{ formulario: unirse | proyecto }}         en su propia línea: Google Form incrustado
 
 `formulario` incrusta solo si la primera URL definida es un Google Form completo
 (https://docs.google.com/forms/.../viewform); con un enlace corto (forms.gle) o sin

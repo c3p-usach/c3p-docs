@@ -37,11 +37,9 @@ extra:
   # Una URL https://docs.google.com/forms/d/e/<id>/viewform se muestra incrustada;
   # un enlace corto (forms.gle) solo como enlace. Clave vacía = formulario aún no publicado.
   formularios:
-    acceso: https://forms.gle/NeAfebdcvRbvPmyg9      # solicitud de cuenta vigente; se retira con F1/F2 (P1.3)
     productos: https://docs.google.com/forms/d/e/1FAIpQLSfI1MfVD0tsPd8-5fCGyTCOsg_QXHBOSrO7F3h5fhsr_i5B3w/viewform   # F4 · registro de productos (P1.1, instalado 2026-10-23)
-    # Fase 1 (P-12): pegar aquí la URL .../viewform de cada Google Form cuando exista.
-    proyecto:     # F1 · solicitar un proyecto (PI)
-    unirse:       # F2 · unirse a un proyecto (cuenta)
+    proyecto: https://docs.google.com/forms/d/e/1FAIpQLSfnRfVpQv8dpDBU4JNr18iVr9wk5zru3sF0FYOVL01DSkopYg/viewform     # F1 · solicitar un proyecto (PI)
+    unirse: https://docs.google.com/forms/d/e/1FAIpQLSdddxaB4pBQLOvDKulJOj7pRl4lhFFGbJINcb-FxzglfcNo6w/viewform       # F2 · unirse a un proyecto (cuenta)
     soporte:      # F3 · soporte
 hooks:
   - hooks/formularios.py
@@ -72,6 +70,8 @@ nav:
   - Inicio: index.md
   - Acceso:
       - Solicitar una cuenta: acceso/solicitar-cuenta.md
+      - Solicitar un proyecto: acceso/solicitar-proyecto.md
+      - Unirse a un proyecto: acceso/unirse.md
       - Conectarse por SSH: acceso/conectarse.md
       - Reglas de uso: acceso/reglas.md
   - Uso del clúster:

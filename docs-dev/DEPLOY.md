@@ -112,16 +112,15 @@ This path uses whatever is in your working copy, uncommitted changes included, a
 
 ---
 
-## Forms (when H1/P1.3 deliver them)
+## Forms
 
 Form URLs live only in `extra.formularios` in `mkdocs.yml`. To switch a page to an embedded form, paste the Google Form's full URL (`https://docs.google.com/forms/d/e/<id>/viewform`, from **Send → link**, not the short `forms.gle` one) into its key, open a PR, merge, and publish a tag. Until a key has that kind of URL, the page shows the plain link as it does today.
 
 | Key | Form | Used on |
 |---|---|---|
-| `acceso` | current account request (short link) | `acceso/solicitar-cuenta.md`, until `unirse` is set |
-| `productos` | product registry (short link today; F4 replaces it) | `agradecimientos.md` |
-| `proyecto` | F1 · project request (PI) | not on a page yet (H4 adds it) |
-| `unirse` | F2 · join a project | `acceso/solicitar-cuenta.md` |
+| `productos` | F4 · product registry | `agradecimientos.md` |
+| `proyecto` | F1 · project request (PI) | `acceso/solicitar-proyecto.md` |
+| `unirse` | F2 · join a project | `acceso/unirse.md` |
 | `soporte` | F3 · support | `contacto.md` (embedded only; nothing shows while empty) |
 
 ## Not verified from here

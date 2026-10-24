@@ -13,7 +13,7 @@ El nodo de entrada (*head node*) de Chuchunco es **158.170.68.170**.
 === "Linux / macOS"
     ```bash
     ssh-keygen -t ed25519 -C "tu.correo@usach.cl"
-    cat ~/.ssh/id_ed25519.pub     # esto es lo que envías
+    cat ~/.ssh/id_ed25519.pub     # esto es lo que pegas en el formulario
     ```
 
 === "Windows (PowerShell)"

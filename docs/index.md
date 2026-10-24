@@ -30,7 +30,7 @@ En total: **más de 900 núcleos de CPU, 10 GPUs y más de 6 TB de RAM**, admini
 -   :material-account-plus:{ .lg } **1 · Solicita una cuenta**
 
     ---
-    Formulario de acceso y llave SSH.
+    Abre un proyecto o únete a uno.
 
     [:octicons-arrow-right-24: Solicitar](acceso/solicitar-cuenta.md)
 

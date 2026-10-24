@@ -4,7 +4,7 @@
     Es un problema de red: solo se puede entrar desde la red cableada USACH o por VPN. Conéctate a la VPN y prueba de nuevo. Ver [Conectarse](acceso/conectarse.md#si-la-conexion-se-queda-pegada).
 
 ??? question "Me dice `Permission denied (publickey)`"
-    El servidor no reconoce tu llave. Revisa que enviaste el archivo `.pub` correcto y que usas el usuario correcto. Prueba `ssh -i ~/.ssh/id_ed25519 nombre.apellido@158.170.68.170`.
+    El servidor no reconoce tu llave. Revisa que pegaste en el formulario el contenido del archivo `.pub` correcto y que usas el usuario correcto. Prueba `ssh -i ~/.ssh/id_ed25519 nombre.apellido@158.170.68.170`.
 
 ??? question "Mi trabajo lleva mucho tiempo en estado `PD` (pendiente)"
     Mira la razón en la columna `NODELIST(REASON)` de `squeue -u $USER`:
