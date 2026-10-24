@@ -38,12 +38,11 @@ extra:
   # un enlace corto (forms.gle) solo como enlace. Clave vacía = formulario aún no publicado.
   formularios:
     acceso: https://forms.gle/NeAfebdcvRbvPmyg9      # solicitud de cuenta vigente; se retira con F1/F2 (P1.3)
-    productos: https://forms.gle/wJYGYYy1hM35aRMd6   # registro de productos vigente; F4 (P1.1) la reemplaza
+    productos: https://docs.google.com/forms/d/e/1FAIpQLSfI1MfVD0tsPd8-5fCGyTCOsg_QXHBOSrO7F3h5fhsr_i5B3w/viewform   # F4 · registro de productos (P1.1, instalado 2026-10-23)
     # Fase 1 (P-12): pegar aquí la URL .../viewform de cada Google Form cuando exista.
     proyecto:     # F1 · solicitar un proyecto (PI)
     unirse:       # F2 · unirse a un proyecto (cuenta)
     soporte:      # F3 · soporte
-    # F4 · registro de productos: reemplazar la URL de «productos» de arriba
 hooks:
   - hooks/formularios.py
 plugins:
