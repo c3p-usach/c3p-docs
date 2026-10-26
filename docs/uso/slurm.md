@@ -66,7 +66,7 @@ Sal con `exit` para liberar el nodo.
 | Opción | Significado |
 |---|---|
 | `--partition=CPU` | partición |
-| `--nodes=2` | número de nodos |
+| `--nodes=1` | número de nodos: **cada trabajo usa un solo nodo** (ver abajo) |
 | `--ntasks=64` | número de procesos (MPI) |
 | `--cpus-per-task=8` | hilos por proceso (OpenMP, Python multiproceso) |
 | `--mem=32G` | memoria por nodo |
@@ -74,5 +74,10 @@ Sal con `exit` para liberar el nodo.
 | `--time=1-12:00:00` | tiempo máximo (días-hh:mm:ss) |
 | `--array=1-100` | arreglo de trabajos |
 | `--mail-type=END,FAIL` y `--mail-user=tu@usach.cl` | aviso por correo (por confirmar) |
+
+!!! note "Un nodo por trabajo"
+    En Chuchunco cada trabajo corre en **un solo nodo** (`MaxNodes=1` en las particiones `CPU`, `MEM` y `GPU`). Un nodo de cómputo ya tiene 256 hilos (`CPU`) o 4 GPUs (`GPU`), y la red entre nodos no está pensada para cálculos muy acoplados entre máquinas. MPI dentro de un nodo funciona normalmente.
+
+    Si tu proyecto realmente necesita varios nodos, escríbenos explicando por qué. Si se aprueba, habilitamos la opción para la cuenta Slurm de tu proyecto y envías con `--qos=multinodo --nodes=N`.
 
 Más ejemplos en [Ejemplos de trabajos](ejemplos.md).
