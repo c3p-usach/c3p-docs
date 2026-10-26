@@ -14,14 +14,14 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 ./mi_programa
 ```
 
-## MPI en varios nodos
+## MPI en un nodo
 
-La forma recomendada es usar un contenedor con tu stack MPI (ver [Contenedores](contenedores.md)):
+Cada trabajo usa un solo nodo (ver [Slurm](slurm.md)). La forma recomendada es usar un contenedor con tu stack MPI (ver [Contenedores](contenedores.md)):
 
 ```bash
 #!/bin/bash
 #SBATCH -p CPU
-#SBATCH --nodes=3
+#SBATCH --nodes=1
 #SBATCH --ntasks-per-node=64
 #SBATCH --time=06:00:00
 
@@ -29,6 +29,8 @@ srun --mpi=pmix \
      --container-image=/data/<grupo>/mi-imagen-mpi.sqsh \
      mi_programa_mpi
 ```
+
+Si tu proyecto tiene aprobado el uso de varios nodos, agrega `#SBATCH --qos=multinodo` y cambia `--nodes`.
 
 ## Mucha memoria
 
