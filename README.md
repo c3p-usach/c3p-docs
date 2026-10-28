@@ -30,4 +30,4 @@ Las URL de los formularios están en un solo lugar: `extra.formularios` en `mkdo
 
 ## Pendientes («por confirmar» en el sitio)
 
-`grep -rn "por confirmar" docs/` lista todo lo que falta. La mayoría se resuelve con el levantamiento as-built del head node (`Projects/hpc-fisica/11-operacion-admin/estado-actual.md`) y la respuesta de XI: límites de tiempo, cuotas, rutas de `/data`, `seff`/correo, Jupyter, cantidad de MI210.
+`grep -rn "por confirmar" docs/` lista todo lo que falta. Se resuelven con `Projects/hpc-fisica/11-operacion-admin/estado-actual.md`. Quedan (oct 2026): carpetas de proyecto en `/data` y su cuota, `srun --jobid` para entrar a un trabajo en curso, Jupyter y la fecha de la próxima inducción.
