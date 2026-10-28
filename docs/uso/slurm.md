@@ -24,12 +24,14 @@ En todas las particiones:
 !!! note "¿Qué es una «CPU» en Slurm?"
     Cada núcleo físico tiene 2 hilos de hardware, y Slurm cuenta cada hilo como una CPU. Por eso un nodo `CPU` de 128 núcleos aparece con 256 CPUs.
 
-!!! warning "Si pides más de lo que existe, Slurm rechaza el trabajo"
-    Un trabajo que pide más tiempo, más nodos o más memoria de los permitidos se rechaza **al enviarlo**, con un mensaje como:
+!!! warning "Si pides más de lo permitido, Slurm rechaza el trabajo"
+    Un trabajo que pide más de lo permitido se rechaza **al enviarlo**: `sbatch` responde con un error y el trabajo no entra a la cola. Los mensajes más comunes:
 
-    ```text
-    sbatch: error: Batch job submission failed: Requested time limit is invalid (missing or exceeds some limit)
-    ```
+    | Mensaje (después de `sbatch: error: Batch job submission failed:`) | Qué corregir |
+    |---|---|
+    | `Requested time limit is invalid (missing or exceeds some limit)` | pediste más de 7 días: usa `--time=7-00:00:00` o menos |
+    | `Node count specification invalid` | pediste más de un nodo: usa `--nodes=1` (ver [Un nodo por trabajo](#un-nodo-por-trabajo)) |
+    | `Invalid account or account/partition combination specified` | no estás en un proyecto, o `-A` nombra uno que no es tuyo (ver [Tus proyectos y `-A`](#tus-proyectos-y-a)) |
 
     Corrige la petición y envíalo de nuevo.
 
@@ -146,7 +148,19 @@ srun -p CPU --cpus-per-task=4 --mem=8G --time=00:30:00 --pty bash
 Sal con `exit` para liberar los recursos.
 
 !!! info "No se puede entrar por SSH a los nodos de cómputo"
-    Solo el nodo de entrada acepta SSH de usuarios. Para trabajar en un nodo, pide una sesión interactiva con `srun`. Mirar dentro de un trabajo que ya está corriendo (`srun --jobid=<jobid> --pty bash`): por confirmar.
+    Solo el nodo de entrada acepta SSH de usuarios. Para trabajar en un nodo, pide una sesión interactiva con `srun`.
+
+### Entrar a un trabajo que ya está corriendo
+
+Para mirar qué hace un trabajo tuyo mientras corre (por ejemplo, con `top`), abre una terminal dentro de él:
+
+```bash
+srun --jobid=<jobid> --overlap --pty bash
+```
+
+- `--overlap` hace que esta terminal comparta los recursos que ya tiene el trabajo. Sin esa opción, `srun` se queda esperando a que el trabajo los libere.
+- Solo funciona con **tus propios** trabajos.
+- Sal con `exit`: el trabajo sigue corriendo.
 
 ## Opciones `#SBATCH` más usadas
 

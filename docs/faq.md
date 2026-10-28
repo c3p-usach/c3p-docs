@@ -35,6 +35,15 @@
 ??? question "Mi trabajo terminó con `OUT_OF_MEMORY` («Out Of Memory»)"
     Tu programa usó más memoria de la que pediste, y Slurm lo detuvo. No hay *swap*: no se puede pasar del límite.
 
+    En el archivo de salida del trabajo verás líneas como estas (el nodo y los números cambian):
+
+    ```text
+    slurmstepd-cpun1: error: Detected 1 oom_kill event in StepId=264.0. Some of the step tasks have been OOM Killed.
+    srun: error: cpun1: task 0: Out Of Memory
+    ```
+
+    Qué hacer:
+
     1. Mira cuánto usó: `sacct -j <jobid> -o JobID,Elapsed,MaxRSS,ReqMem,State` (columna `MaxRSS`).
     2. Pide un poco más con `--mem` (por ejemplo `--mem=32G`).
 
@@ -42,6 +51,15 @@
 
 ??? question "Mi trabajo terminó con `TIMEOUT`"
     Pasó del tiempo pedido. Si no pusiste `--time`, el límite es 4 horas. Pide más con `--time` (máximo 7 días: `--time=7-00:00:00`). Para cálculos aún más largos, ver [Trabajos más largos que 7 días](uso/ejemplos.md#trabajos-mas-largos-que-7-dias).
+
+??? question "¿Cómo entro al nodo donde corre mi trabajo?"
+    No por SSH, sino con `srun`, desde el nodo de entrada:
+
+    ```bash
+    srun --jobid=<jobid> --overlap --pty bash
+    ```
+
+    Abre una terminal dentro de tu trabajo, en su nodo, y ahí puedes mirar con `top` cuánto usa. `--overlap` es necesario: sin esa opción, `srun` se queda esperando. Solo funciona con tus propios trabajos. Sal con `exit`; el trabajo sigue corriendo. Ver [Entrar a un trabajo que ya está corriendo](uso/slurm.md#entrar-a-un-trabajo-que-ya-esta-corriendo).
 
 ??? question "¿Puedo usar más de un nodo?"
     Por defecto, no: cada trabajo usa un solo nodo, y un nodo `CPU` ya tiene 256 CPUs. MPI y multihilo dentro de un nodo funcionan sin problema (`--nodes=1 --ntasks-per-node=…`).
@@ -71,4 +89,4 @@
     Sí, sin permisos de administrador: paquetes de Python en tu propio entorno ([Software y Python](uso/software.md)), o cualquier otro software con [contenedores](uso/contenedores.md). No hay `sudo` ni `module load`.
 
 ??? question "¿Puedo usar Jupyter?"
-    Por confirmar. Mientras tanto, trabaja con scripts y `sbatch`.
+    No disponible por ahora. Trabaja con scripts y `sbatch`.
