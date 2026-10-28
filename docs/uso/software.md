@@ -5,7 +5,7 @@
 | Forma | Para qué | Dónde se explica |
 |---|---|---|
 | **Tu propio entorno de Python** | NumPy, SciPy, Matplotlib, Astropy y casi cualquier paquete de `pip` | [esta página](#tu-entorno-de-python-paso-a-paso) |
-| **Contenedores** | software pesado, con GPU (PyTorch, TensorFlow, CUDA, ROCm), o con muchas dependencias | [Contenedores](contenedores.md) |
+| **Contenedores** | software pesado, con GPU (PyTorch, TensorFlow, CUDA, ROCm), o con muchas dependencias | [Contenedores](contenedores.md); para PyTorch hay [imágenes listas](imagenes.md) |
 | **Lo que ya trae el sistema** | Python 3, `python3-venv` y `gnuplot` (sin ventanas) | [esta página](#gnuplot) |
 
 El clúster **no instala paquetes de Python para todos**. Cada persona crea su propio entorno, con las versiones que necesita. Así un cambio para una persona no rompe el trabajo de otra.

@@ -81,6 +81,7 @@ nav:
       - Ejemplos de trabajos: uso/ejemplos.md
       - GPUs: uso/gpu.md
       - Contenedores (Pyxis/Enroot): uso/contenedores.md
+      - Imágenes disponibles: uso/imagenes.md
       - Almacenamiento y datos: uso/almacenamiento.md
   - Preguntas frecuentes: faq.md
   - Agradecimientos y productos: agradecimientos.md

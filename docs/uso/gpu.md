@@ -23,6 +23,8 @@ srun --container-image=nvcr.io#nvidia/pytorch:24.05-py3 \
      python entrenar.py
 ```
 
+Para PyTorch en estas GPUs hay una imagen lista y probada: ver [Imágenes disponibles](imagenes.md).
+
 Prueba rápida:
 
 ```bash
@@ -31,7 +33,7 @@ srun -p GPU --gres=gpu:rtx6000ada:1 --time=00:05:00 nvidia-smi -L
 
 ## AMD (ROCm)
 
-Las MI210 usan ROCm en lugar de CUDA. PyTorch y TensorFlow tienen versiones ROCm oficiales. Los contenedores ROCm funcionan en las MI210: ver la pestaña «AMD (gpun1)» en [Tu primer contenedor con GPU](contenedores.md#tu-primer-contenedor-con-gpu).
+Las MI210 usan ROCm en lugar de CUDA. PyTorch y TensorFlow tienen versiones ROCm oficiales. Los contenedores ROCm funcionan en las MI210: ver la pestaña «AMD (gpun1)» en [Tu primer contenedor con GPU](contenedores.md#tu-primer-contenedor-con-gpu). Para PyTorch en las MI210 hay una imagen lista y probada: ver [Imágenes disponibles](imagenes.md).
 
 Prueba rápida:
 
