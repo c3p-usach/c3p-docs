@@ -44,7 +44,7 @@ En todas las particiones:
 | `scontrol show job <jobid>` | detalle de un trabajo (por qué espera, dónde corre) |
 | `sacct -j <jobid> -o JobID,Elapsed,MaxRSS,ReqMem,State` | qué usó un trabajo que ya terminó |
 | `srun --pty bash` | sesión interactiva en un nodo de cómputo |
-| `sacctmgr show assoc user=$USER format=account` | tus proyectos |
+| `sacctmgr show assoc user=$USER format=account%30,qos%20` | tus proyectos |
 
 ## Un trabajo típico
 
@@ -105,7 +105,7 @@ Solo pueden enviar trabajos los integrantes de un **proyecto aprobado**. Cada tr
 - Si estás en un solo proyecto, no tienes que hacer nada.
 - Si estás en varios, elige con `-A`: `sbatch -A mi-proyecto script.sh` o `#SBATCH -A mi-proyecto`.
 
-Si ves `Invalid account or account/partition combination specified`, tu cuenta no está en ese proyecto (o en ninguno). Revisa con `sacctmgr show assoc user=$USER format=account`.
+Si ves `Invalid account or account/partition combination specified`, tu cuenta no está en ese proyecto (o en ninguno). Revisa con `sacctmgr show assoc user=$USER format=account%30,qos%20`.
 
 ## ¿Quién va primero? Prioridad y límites
 

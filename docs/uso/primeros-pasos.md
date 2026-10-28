@@ -49,14 +49,16 @@ GPU          up 7-00:00:00      3   idle gpun[1-3]
 **¿En qué proyectos estás?** Solo puedes enviar trabajos a nombre de un proyecto aprobado:
 
 ```bash
-sacctmgr show assoc user=$USER format=account
+sacctmgr show assoc user=$USER format=account%30,qos%20
 ```
 
 ```text
-   Account
-----------
-mi-proyecto
+                       Account                  QOS
+------------------------------ --------------------
+                   mi-proyecto               normal
 ```
+
+`%30` y `%20` dan ancho a las columnas; sin eso, los nombres largos se cortan con un `+`. En la columna `QOS`, `normal` es lo habitual.
 
 Si aparece más de una línea, estás en varios proyectos. Si no aparece ninguna, tu cuenta aún no está asociada a un proyecto: escribe a hpc.fisica@usach.cl.
 

@@ -27,7 +27,7 @@
     Tu cuenta no está asociada a un proyecto aprobado, o pediste un proyecto (`-A`) al que no perteneces. Revisa tus proyectos:
 
     ```bash
-    sacctmgr show assoc user=$USER format=account
+    sacctmgr show assoc user=$USER format=account%30,qos%20
     ```
 
     Si no aparece ninguno, escribe a hpc.fisica@usach.cl. Si aparece más de uno, elige con `-A <proyecto>`.
