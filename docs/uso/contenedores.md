@@ -9,6 +9,9 @@ En Chuchunco puedes usar imágenes de Docker Hub, NVIDIA NGC, AMD ROCm o una tuy
 !!! tip "¿Solo necesitas NumPy, SciPy o Matplotlib?"
     No necesitas un contenedor: usa un entorno de Python propio ([Software y Python](software.md)). Los contenedores sirven sobre todo para software pesado o con GPU.
 
+!!! tip "¿Vas a usar PyTorch con GPU?"
+    Antes de descargar una imagen de PyTorch, revisa [Imágenes disponibles](imagenes.md): hay imágenes listas y probadas para las dos GPUs del clúster.
+
 ## Las 3 opciones que necesitas
 
 | Opción de `srun` | Para qué |
@@ -35,8 +38,19 @@ NAME="Ubuntu"
 
 La primera vez, Pyxis descarga la imagen; las siguientes veces es más rápido (ver [dónde se guardan](#donde-se-guardan-las-imagenes)).
 
-!!! warning "Imágenes grandes: pide más memoria"
-    Al usar una imagen por primera vez, Pyxis la convierte en un archivo, y ese paso usa mucha memoria. Con imágenes grandes (PyTorch, ROCm: varios GB) y la memoria por defecto, el trabajo puede morir con `Out Of Memory` mientras dice «Creating squashfs filesystem». Agrega `--mem=32G` o más.
+!!! warning "Imágenes grandes"
+    Cuando usas una imagen por su nombre (`--container-image=<imagen de un registro>`), Pyxis la descarga y la convierte en un archivo. Esa conversión se hace en un espacio que cuenta como memoria de tu trabajo y que tiene un límite por nodo: **26 GB** en `gpun2` y `gpun3`, **51 GB** en `gpun1`.
+
+    - **Imágenes medianas** (unos pocos GB): pide `--mem=32G` o más.
+    - **Imágenes grandes** (decenas de GB): no caben en ese espacio, aunque pidas más memoria. El trabajo falla con `No space left on device` o `Out Of Memory` mientras dice «Creating squashfs filesystem». Usa una [imagen compartida](imagenes.md), o convierte tú la imagen a un archivo con Enroot, dentro de un trabajo:
+
+        ```bash
+        mkdir -p ~/imagenes
+        srun -p GPU --gres=gpu:mi210:1 --cpus-per-task=16 --mem=64G -t 2:00:00 \
+             enroot import -o $HOME/imagenes/mi-imagen.sqsh docker://rocm/pytorch:<tag>
+        ```
+
+        Para una imagen de NVIDIA NGC, la dirección va entre comillas: `"docker://nvcr.io#nvidia/pytorch:<tag>"`. Después usa el archivo: `--container-image=$HOME/imagenes/mi-imagen.sqsh`.
 
 ## Tu primer contenedor con GPU
 
@@ -68,6 +82,8 @@ Pide la GPU con `--gres`, igual que sin contenedor:
 
     Las imágenes ROCm son grandes: la primera vez que se importan pide `--cpus-per-task=8 --mem=64G`.
 
+    Para PyTorch en las MI210, usa la [imagen compartida](imagenes.md).
+
 Dentro del contenedor ves **solo las GPUs que pediste**.
 
 ## Cómo se escribe el nombre de una imagen
@@ -95,6 +111,8 @@ srun -p CPU --time=01:00:00 \
 ```
 
 Aquí `$HOME/datos` del clúster aparece como `/datos` dentro del contenedor. Lo que el programa escribe en `/datos` queda guardado en `$HOME/datos`.
+
+Si no quieres que tu *home* se vea dentro del contenedor, agrega `--no-container-mount-home`.
 
 ## Un trabajo por lotes con contenedor
 
@@ -187,7 +205,8 @@ srun -p CPU --time=01:00:00 --mem=32G \
 | `toomanyrequests` | Docker Hub limita las descargas anónimas | guarda la imagen como `.sqsh` (opción B) y úsala desde ahí |
 | `Permission denied` al hacer `pip install` dentro del contenedor | dentro de la imagen no eres administrador | usa `--container-remap-root --container-writable` (opción B) o `pip install --user` (opción A) |
 | `Read-only file system` al instalar dentro del contenedor | el contenedor es de solo lectura por defecto | agrega `--container-writable` |
-| el trabajo muere con `Out Of Memory` mientras dice «Creating squashfs filesystem» | la imagen es grande y la memoria por defecto no alcanza para importarla | pide más memoria: `--mem=32G` o más |
+| el trabajo muere con `Out Of Memory` mientras dice «Creating squashfs filesystem» | la memoria del trabajo no alcanza para convertir la imagen | imagen mediana: pide `--mem=32G` o más; imagen grande (decenas de GB): usa `enroot import` o una imagen compartida (ver [Imágenes grandes](#tu-primer-contenedor-cpu)) |
+| `No space left on device` mientras dice «Creating squashfs filesystem» | la imagen es demasiado grande para convertirla dentro del trabajo | usa `enroot import` (ver [Imágenes grandes](#tu-primer-contenedor-cpu)) o una [imagen compartida](imagenes.md) |
 | `nvidia-smi: command not found` o no ve GPUs | no pediste GPU, o la imagen no es para esa GPU | agrega `--gres=gpu:<tipo>:1` y usa imágenes CUDA en `rtx6000ada`; en `mi210` usa imágenes ROCm y revisa con `rocminfo` |
 | `No such file or directory` para tus datos | la carpeta no está montada | usa `--container-mounts` o una ruta dentro de tu *home* |
 | la primera ejecución tarda mucho | se está descargando la imagen | normal; guarda un `.sqsh` para las siguientes |
