@@ -35,6 +35,9 @@ NAME="Ubuntu"
 
 La primera vez, Pyxis descarga la imagen; las siguientes veces es más rápido (ver [dónde se guardan](#donde-se-guardan-las-imagenes)).
 
+!!! warning "Imágenes grandes: pide más memoria"
+    Al usar una imagen por primera vez, Pyxis la convierte en un archivo, y ese paso usa mucha memoria. Con imágenes grandes (PyTorch, ROCm: varios GB) y la memoria por defecto, el trabajo puede morir con `Out Of Memory` mientras dice «Creating squashfs filesystem». Agrega `--mem=32G` o más.
+
 ## Tu primer contenedor con GPU
 
 Pide la GPU con `--gres`, igual que sin contenedor:
@@ -51,13 +54,7 @@ Pide la GPU con `--gres`, igual que sin contenedor:
     ```
 
 === "AMD (gpun1)"
-    ```bash
-    srun -p GPU --gres=gpu:mi210:1 --time=00:10:00 \
-         --container-image=rocm/pytorch:latest \
-         python3 -c "import torch; print(torch.cuda.get_device_name(0))"
-    ```
-
-    La imagen de ROCm es grande: la primera descarga puede tardar varios minutos.
+    Usar las MI210 dentro de un contenedor: por confirmar. Mientras tanto, para contenedores con GPU usa las NVIDIA.
 
 Dentro del contenedor ves **solo las GPUs que pediste**.
 
@@ -113,7 +110,7 @@ Una imagen pública casi nunca trae todo lo que necesitas. Hay dos formas de agr
 Simple, pero repite la instalación cada vez:
 
 ```bash
-srun --container-image=nvcr.io#nvidia/pytorch:24.05-py3 \
+srun --mem=32G --container-image=nvcr.io#nvidia/pytorch:24.05-py3 \
      bash -c "pip install --user astropy && python entrenar.py"
 ```
 
@@ -127,9 +124,9 @@ Instala dentro del contenedor y guárdalo como un archivo `.sqsh`. Después usas
 mkdir -p ~/imagenes
 
 # 1. Instala y guarda (una sola vez)
-srun -p CPU --time=01:00:00 \
+srun -p CPU --time=01:00:00 --mem=32G \
      --container-image=nvcr.io#nvidia/pytorch:24.05-py3 \
-     --container-remap-root \
+     --container-remap-root --container-writable \
      --container-save=$HOME/imagenes/pytorch-mio.sqsh \
      pip install astropy
 
@@ -140,6 +137,7 @@ srun -p GPU --gres=gpu:rtx6000ada:1 --time=12:00:00 \
 ```
 
 - `--container-remap-root` te hace «administrador» **solo dentro del contenedor**, para que `pip` pueda instalar en la imagen.
+- `--container-writable` permite escribir dentro del contenedor. Sin esta opción el contenedor es de solo lectura: la instalación falla con `Read-only file system` y el `.sqsh` se guarda igual, pero sin lo que instalaste.
 - El archivo `.sqsh` puede pesar varios GB. Guarda pocos y borra los que no uses.
 - Al usar un `.sqsh` no se descarga nada: el trabajo empieza más rápido.
 
@@ -154,8 +152,9 @@ docker push tu-usuario-dockerhub/mi-imagen:1.0
 
 # En Chuchunco: guárdala como .sqsh para no descargarla cada vez
 mkdir -p ~/imagenes
-srun -p CPU --time=01:00:00 \
+srun -p CPU --time=01:00:00 --mem=32G \
      --container-image=tu-usuario-dockerhub/mi-imagen:1.0 \
+     --container-remap-root --container-writable \
      --container-save=$HOME/imagenes/mi-imagen.sqsh \
      true
 ```
@@ -174,8 +173,10 @@ srun -p CPU --time=01:00:00 \
 |---|---|---|
 | `invalid image reference` o `No such image` | nombre mal escrito, o `/` en vez de `#` después del dominio | revisa el nombre: `nvcr.io#nvidia/...` |
 | `toomanyrequests` | Docker Hub limita las descargas anónimas | guarda la imagen como `.sqsh` (opción B) y úsala desde ahí |
-| `Permission denied` al hacer `pip install` dentro del contenedor | dentro de la imagen no eres administrador | usa `--container-remap-root` (opción B) o `pip install --user` (opción A) |
-| `nvidia-smi: command not found` o no ve GPUs | no pediste GPU, o la imagen no es para esa GPU | agrega `--gres=gpu:<tipo>:1`; usa imágenes CUDA en `rtx6000ada` y ROCm en `mi210` |
+| `Permission denied` al hacer `pip install` dentro del contenedor | dentro de la imagen no eres administrador | usa `--container-remap-root --container-writable` (opción B) o `pip install --user` (opción A) |
+| `Read-only file system` al instalar dentro del contenedor | el contenedor es de solo lectura por defecto | agrega `--container-writable` |
+| el trabajo muere con `Out Of Memory` mientras dice «Creating squashfs filesystem» | la imagen es grande y la memoria por defecto no alcanza para importarla | pide más memoria: `--mem=32G` o más |
+| `nvidia-smi: command not found` o no ve GPUs | no pediste GPU, o la imagen no es para esa GPU | agrega `--gres=gpu:<tipo>:1` y usa imágenes CUDA en `rtx6000ada` (contenedores en `mi210`: por confirmar) |
 | `No such file or directory` para tus datos | la carpeta no está montada | usa `--container-mounts` o una ruta dentro de tu *home* |
 | la primera ejecución tarda mucho | se está descargando la imagen | normal; guarda un `.sqsh` para las siguientes |
 

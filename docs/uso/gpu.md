@@ -31,28 +31,16 @@ srun -p GPU --gres=gpu:rtx6000ada:1 --time=00:05:00 nvidia-smi -L
 
 ## AMD (ROCm)
 
-Las MI210 usan ROCm en lugar de CUDA. PyTorch y TensorFlow tienen versiones ROCm oficiales:
-
-```bash
-#!/bin/bash
-#SBATCH -p GPU
-#SBATCH --gres=gpu:mi210:1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
-#SBATCH --time=12:00:00
-
-srun --container-image=rocm/pytorch:latest \
-     python entrenar.py
-```
+Las MI210 usan ROCm en lugar de CUDA. PyTorch y TensorFlow tienen versiones ROCm oficiales. Usarlas con contenedores ROCm: por confirmar.
 
 Prueba rápida:
 
 ```bash
-srun -p GPU --gres=gpu:mi210:1 --time=00:05:00 amd-smi list
+srun -p GPU --gres=gpu:mi210:1 --time=00:05:00 rocm-smi --showbus
 ```
 
 !!! tip "Buenas prácticas"
     - Pide **una GPU** salvo que tu código use varias (DDP, Horovod).
     - Cada nodo NVIDIA tiene 48 CPUs para 4 GPUs: pide como máximo **12 CPUs por GPU**, para no dejar GPUs sin CPUs. En `gpun1` (MI210) son 64 CPUs: hasta **16 CPUs por GPU**.
     - Memoria por defecto en `GPU`: 5 GB por CPU. Si necesitas más, usa `--mem`.
-    - Verifica que tu código efectivamente use la GPU (`nvidia-smi` / `amd-smi` dentro del trabajo).
+    - Verifica que tu código efectivamente use la GPU (`nvidia-smi` / `rocm-smi` dentro del trabajo).
