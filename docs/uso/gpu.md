@@ -31,7 +31,7 @@ srun -p GPU --gres=gpu:rtx6000ada:1 --time=00:05:00 nvidia-smi -L
 
 ## AMD (ROCm)
 
-Las MI210 usan ROCm en lugar de CUDA. PyTorch y TensorFlow tienen versiones ROCm oficiales. Usarlas con contenedores ROCm: por confirmar.
+Las MI210 usan ROCm en lugar de CUDA. PyTorch y TensorFlow tienen versiones ROCm oficiales. Los contenedores ROCm funcionan en las MI210: ver la pestaña «AMD (gpun1)» en [Tu primer contenedor con GPU](contenedores.md#tu-primer-contenedor-con-gpu).
 
 Prueba rápida:
 
