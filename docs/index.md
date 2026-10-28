@@ -6,20 +6,24 @@
 Financiado por el proyecto FONDEQUIP EQM230160 · abierto a la comunidad de investigación USACH y sus colaboradores.
 </div>
 
-!!! warning "Versión preliminar"
-    Este sitio está en construcción. Las secciones marcadas con **«por confirmar»** pueden cambiar mientras terminamos la puesta en marcha.
+!!! warning "Operación beta: úsalo bajo tu propio riesgo"
+    Chuchunco ya se puede usar, pero está en **operación beta**:
+
+    - las reglas y los límites **pueden cambiar** mientras ajustamos el servicio;
+    - **no hay respaldo** de `/home` ni de `/data`: si se pierde un archivo, no se puede recuperar. **Guarda tu propia copia** de los resultados importantes;
+    - las secciones marcadas con **«por confirmar»** aún no están definidas.
 
 ## ¿Qué ofrece?
 
 | Recurso | Nodos | Por nodo |
 |---|---|---|
-| CPU general (`CPU`) | 5 (`cpun1`–`cpun5`) | 2× AMD EPYC 9554 · 128 núcleos · 768 GB RAM |
+| CPU general (`CPU`) | 5 (`cpun1`–`cpun5`) | 2× AMD EPYC 9554 · 128 núcleos · 755 GB RAM |
 | Alta memoria (`MEM`) | 1 (`high-ram-n1`) | 2× AMD EPYC 9654 · 192 núcleos · 1,5 TB RAM |
-| GPU NVIDIA (`GPU`) | 2 (`gpun2`, `gpun3`) | 4× NVIDIA RTX 6000 Ada (48 GB) · 24 núcleos · 256 GB RAM |
-| GPU AMD (`GPU`) | 1 (`gpun1`) | 2× AMD Instinct MI210 (64 GB) · 32 núcleos · 512 GB RAM |
-| Almacenamiento | CEPH distribuido | ~1,2 PB brutos, montado en `/data` |
+| GPU NVIDIA (`GPU`) | 2 (`gpun2`, `gpun3`) | 4× NVIDIA RTX 6000 Ada (48 GB) · 24 núcleos · 251 GB RAM |
+| GPU AMD (`GPU`) | 1 (`gpun1`) | 4× AMD Instinct MI210 (64 GB) · 32 núcleos · 503 GB RAM |
+| Almacenamiento | CEPH distribuido, montado en `/data` | ~245 TiB utilizables (1,24 PB brutos, cada dato guardado 3 veces) |
 
-En total: **más de 900 núcleos de CPU, 10 GPUs y más de 6 TB de RAM**, administrados con el gestor de colas **Slurm** y con soporte nativo de contenedores (**Pyxis/Enroot**).
+En total: **más de 900 núcleos de CPU, 12 GPUs y más de 6 TB de RAM**, administrados con el gestor de colas **Slurm** y con soporte nativo de contenedores (**Pyxis/Enroot**).
 
 ![Arquitectura del clúster](assets/arquitectura-cluster.png)
 
@@ -44,9 +48,9 @@ En total: **más de 900 núcleos de CPU, 10 GPUs y más de 6 TB de RAM**, admini
 -   :material-play-circle:{ .lg } **3 · Lanza tu primer trabajo**
 
     ---
-    Particiones, `sbatch` y ejemplos con Slurm.
+    Tu primer trabajo con Slurm, paso a paso, en 15 minutos.
 
-    [:octicons-arrow-right-24: Primeros pasos](uso/slurm.md)
+    [:octicons-arrow-right-24: Primeros pasos](uso/primeros-pasos.md)
 
 -   :material-book-check:{ .lg } **4 · Agradece y registra**
 

@@ -75,7 +75,9 @@ nav:
       - Conectarse por SSH: acceso/conectarse.md
       - Reglas de uso: acceso/reglas.md
   - Uso del clúster:
-      - Primeros pasos con Slurm: uso/slurm.md
+      - Tu primer trabajo: uso/primeros-pasos.md
+      - "Slurm: colas y límites": uso/slurm.md
+      - Software y Python: uso/software.md
       - Ejemplos de trabajos: uso/ejemplos.md
       - GPUs: uso/gpu.md
       - Contenedores (Pyxis/Enroot): uso/contenedores.md
