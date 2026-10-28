@@ -54,7 +54,19 @@ Pide la GPU con `--gres`, igual que sin contenedor:
     ```
 
 === "AMD (gpun1)"
-    Usar las MI210 dentro de un contenedor: por confirmar. Mientras tanto, para contenedores con GPU usa las NVIDIA.
+    ```bash
+    srun -p GPU -t 30 --gres=gpu:mi210:1 --cpus-per-task=8 --mem=64G \
+         --container-image=rocm/dev-ubuntu-24.04 \
+         bash -c 'rocminfo | grep -E "Marketing Name|^ +Name: +gfx"'
+    ```
+
+    ```text
+    pyxis: imported docker image: rocm/dev-ubuntu-24.04
+      Name:                    gfx90a
+      Marketing Name:          AMD Instinct MI210
+    ```
+
+    Las imágenes ROCm son grandes: la primera vez que se importan pide `--cpus-per-task=8 --mem=64G`.
 
 Dentro del contenedor ves **solo las GPUs que pediste**.
 
@@ -176,7 +188,7 @@ srun -p CPU --time=01:00:00 --mem=32G \
 | `Permission denied` al hacer `pip install` dentro del contenedor | dentro de la imagen no eres administrador | usa `--container-remap-root --container-writable` (opción B) o `pip install --user` (opción A) |
 | `Read-only file system` al instalar dentro del contenedor | el contenedor es de solo lectura por defecto | agrega `--container-writable` |
 | el trabajo muere con `Out Of Memory` mientras dice «Creating squashfs filesystem» | la imagen es grande y la memoria por defecto no alcanza para importarla | pide más memoria: `--mem=32G` o más |
-| `nvidia-smi: command not found` o no ve GPUs | no pediste GPU, o la imagen no es para esa GPU | agrega `--gres=gpu:<tipo>:1` y usa imágenes CUDA en `rtx6000ada` (contenedores en `mi210`: por confirmar) |
+| `nvidia-smi: command not found` o no ve GPUs | no pediste GPU, o la imagen no es para esa GPU | agrega `--gres=gpu:<tipo>:1` y usa imágenes CUDA en `rtx6000ada`; en `mi210` usa imágenes ROCm y revisa con `rocminfo` |
 | `No such file or directory` para tus datos | la carpeta no está montada | usa `--container-mounts` o una ruta dentro de tu *home* |
 | la primera ejecución tarda mucho | se está descargando la imagen | normal; guarda un `.sqsh` para las siguientes |
 
