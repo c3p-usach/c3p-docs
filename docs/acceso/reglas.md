@@ -12,3 +12,15 @@ Resumen de la [política de uso de HPC-RF](https://fisica.usach.cl/es/plataforma
 5. **Tus datos son tu responsabilidad.** No hay respaldo de `/home` ni de `/data`: si borras o pierdes un archivo, no se puede recuperar. Mantén una copia de lo importante fuera del clúster (ver [Almacenamiento](../uso/almacenamiento.md)).
 6. **Uso académico.** Servicios a terceros o uso comercial requieren un acuerdo previo con C3P.
 7. **Agradecimientos.** Toda tesis, paper o presentación que use el clúster debe incluir el [texto de agradecimiento](../agradecimientos.md) y registrarse en el formulario de productos.
+
+## Cuando dejas el clúster
+
+Si ya no participas en ningún proyecto activo (porque te vas o porque tu proyecto terminó):
+
+- **Desde ese día** tu cuenta queda bloqueada: ya no puedes entrar. Los trabajos que estaban corriendo terminan normalmente y tus archivos quedan donde estaban.
+- **A los 6 meses** tu carpeta *home* se archiva y se borra del clúster. Antes de esa fecha te avisamos por correo.
+- **El archivo se guarda 18 meses más** (24 meses después del bloqueo) y luego se borra.
+
+Antes de que se archive tu carpeta puedes pedir acceso temporal para copiar tus datos, o que reactivemos tu cuenta. Si el almacenamiento se llena, estos plazos pueden acortarse.
+
+Copia tus resultados antes de irte, y escribe a hpc.fisica@usach.cl si necesitas volver a entrar.
