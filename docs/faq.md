@@ -90,3 +90,8 @@
 
 ??? question "¿Puedo usar Jupyter?"
     No disponible por ahora. Trabaja con scripts y `sbatch`.
+
+## Cuenta y archivos
+
+??? question "¿Qué pasa con mis archivos si me voy o mi proyecto termina?"
+    Tu cuenta se bloquea, pero tus archivos se quedan. A los 6 meses tu *home* se archiva y se borra del clúster (te avisamos por correo antes), y el archivo se guarda 18 meses más. Antes de esa fecha puedes pedir acceso para copiar tus datos. Detalles en [Cuando dejas el clúster](acceso/reglas.md#cuando-dejas-el-cluster).
