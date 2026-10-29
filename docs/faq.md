@@ -93,5 +93,20 @@
 
 ## Cuenta y archivos
 
+??? question "¿Dónde guardo mis datos?"
+    En la carpeta de tu proyecto, `/data/proyectos/<proyecto>`, donde `<proyecto>` es el nombre de tu proyecto en Slurm (`sacctmgr show assoc user=$USER format=account%30`). Solo los miembros del proyecto pueden entrar, y tiene 5 TB para todo el equipo.
+
+    Tu carpeta personal (`/home/<usuario>`, 1 TB) es para código, scripts, entornos de Python y resultados pequeños, no para datos. Ninguna de las dos tiene respaldo. Ver [Almacenamiento y datos](uso/almacenamiento.md).
+
+??? question "Me sale `Disk quota exceeded`"
+    La carpeta donde escribes llegó a su límite: 5 TB la del proyecto (para todo el equipo) o 1 TB tu *home*. Mira cuánto se usa:
+
+    ```bash
+    numfmt --to=iec $(getfattr --only-values -n ceph.dir.rbytes /data/proyectos/<proyecto>)
+    numfmt --to=iec $(getfattr --only-values -n ceph.dir.rbytes ~)
+    ```
+
+    Borra lo que ya no necesites. Si el proyecto de verdad necesita más espacio, pídelo a hpc.fisica@usach.cl, explicando para qué. Ver [Si llegas al límite](uso/almacenamiento.md#si-llegas-al-limite).
+
 ??? question "¿Qué pasa con mis archivos si me voy o mi proyecto termina?"
     Tu cuenta se bloquea, pero tus archivos se quedan. A los 6 meses tu *home* se archiva y se borra del clúster (te avisamos por correo antes), y el archivo se guarda 18 meses más. Antes de esa fecha puedes pedir acceso para copiar tus datos. Detalles en [Cuando dejas el clúster](acceso/reglas.md#cuando-dejas-el-cluster).

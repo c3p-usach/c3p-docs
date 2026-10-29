@@ -30,4 +30,4 @@ Las URL de los formularios están en un solo lugar: `extra.formularios` en `mkdo
 
 ## Pendientes («por confirmar» en el sitio)
 
-`grep -rn "por confirmar" docs/` lista todo lo que falta. Se resuelven con `Projects/hpc-fisica/11-operacion-admin/estado-actual.md`. Quedan (oct 2026): carpetas de proyecto en `/data` y su cuota, y la fecha de la próxima inducción.
+`grep -rn "por confirmar" docs/` lista todo lo que falta. Se resuelven con `Projects/hpc-fisica/11-operacion-admin/estado-actual.md`. Queda (oct 2026): la fecha de la próxima inducción.

@@ -1,6 +1,6 @@
 # Ejemplos de trabajos
 
-Todos estos ejemplos cumplen los límites del clúster: **un nodo por trabajo**, **7 días como máximo** y como máximo **512 CPUs y 4 GPUs** en uso por persona (ver [Slurm: colas y límites](slurm.md)). Cambia los recursos según lo que use tu programa.
+Todos estos ejemplos cumplen los límites del clúster: **un nodo por trabajo**, **7 días como máximo** y como máximo **512 CPUs y 4 GPUs** en uso por persona (ver [Slurm: colas y límites](slurm.md)). Cambia los recursos según lo que use tu programa, y `mi-proyecto` por el nombre de tu proyecto: los datos y resultados van en la carpeta del proyecto (ver [Almacenamiento y datos](almacenamiento.md)).
 
 ## Multihilo (OpenMP, NumPy, multiprocessing)
 
@@ -52,7 +52,9 @@ La partición `MEM` tiene un nodo con 1,5 TB de RAM:
 #SBATCH --mem=1000G
 #SBATCH --time=2-00:00:00
 
-python3 analisis_grande.py
+python3 analisis_grande.py \
+    --datos /data/proyectos/mi-proyecto/datos \
+    --salida /data/proyectos/mi-proyecto/resultados
 ```
 
 ## Con GPU
@@ -81,13 +83,14 @@ Lanza 100 trabajos independientes, cada uno con un índice distinto:
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=4G
 #SBATCH --time=02:00:00
-#SBATCH --output=logs/%x_%A_%a.out
+#SBATCH --output=/data/proyectos/mi-proyecto/logs/%x_%A_%a.out
 
-python3 simular.py --semilla $SLURM_ARRAY_TASK_ID
+python3 simular.py --semilla $SLURM_ARRAY_TASK_ID \
+    --salida /data/proyectos/mi-proyecto/resultados/sim_$SLURM_ARRAY_TASK_ID.dat
 ```
 
 - `%A` es el número del arreglo y `%a` el índice de cada trabajo.
-- Crea la carpeta `logs` antes de enviarlo: `mkdir -p logs`.
+- Crea las carpetas antes de enviarlo: `mkdir -p /data/proyectos/mi-proyecto/{logs,resultados}`.
 - Cada trabajo del arreglo cuenta para tu límite de 512 CPUs. Aquí, 20 a la vez × 2 CPUs = 40 CPUs.
 
 ## Trabajos más largos que 7 días
