@@ -72,6 +72,14 @@ pwd
 /home/nombre.apellido
 ```
 
+**¿Dónde van tus datos?** Cada proyecto tiene una carpeta compartida con su equipo, con el mismo nombre que el proyecto de arriba:
+
+```bash
+ls /data/proyectos
+```
+
+Tus datos y resultados grandes van en `/data/proyectos/mi-proyecto`, no en tu *home*: la carpeta del proyecto tiene 5 TB para el equipo y tu *home*, 1 TB. Si te acaban de agregar al proyecto y no puedes entrar en su carpeta, desconéctate y vuelve a entrar. Ver [Almacenamiento y datos](almacenamiento.md).
+
 ## 3. Escribe tu primer script
 
 Crea una carpeta para practicar y entra en ella:

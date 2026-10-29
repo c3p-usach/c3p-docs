@@ -100,17 +100,17 @@ Dentro del contenedor ves **solo las GPUs que pediste**.
 
 ## Ver tus archivos dentro del contenedor
 
-Tu *home* ya se ve dentro del contenedor, en la misma ruta. Para otras carpetas, o para verlas con otro nombre, usa `--container-mounts`, y `--container-workdir` para la carpeta de trabajo:
+Tu *home* y la carpeta de tu proyecto (`/data/proyectos/<proyecto>`) ya se ven dentro del contenedor, en las mismas rutas: tu programa puede leer y escribir en `/data/proyectos/mi-proyecto` sin hacer nada más. Para otras carpetas, o para verlas con otro nombre, usa `--container-mounts`, y `--container-workdir` para la carpeta de trabajo:
 
 ```bash
 srun -p CPU --time=01:00:00 \
      --container-image=python:3.12 \
-     --container-mounts=$HOME/datos:/datos \
+     --container-mounts=/data/proyectos/mi-proyecto/datos:/datos \
      --container-workdir=/datos \
      python3 analisis.py
 ```
 
-Aquí `$HOME/datos` del clúster aparece como `/datos` dentro del contenedor. Lo que el programa escribe en `/datos` queda guardado en `$HOME/datos`.
+Aquí `/data/proyectos/mi-proyecto/datos` del clúster aparece como `/datos` dentro del contenedor. Lo que el programa escribe en `/datos` queda guardado en esa carpeta del proyecto.
 
 Si no quieres que tu *home* se vea dentro del contenedor, agrega `--no-container-mount-home`.
 
@@ -195,7 +195,7 @@ srun -p CPU --time=01:00:00 --mem=32G \
 
 - Cuando usas una imagen por su nombre (`python:3.12`), se descarga y se guarda **en el nodo donde corrió, para ti**. La próxima vez que tu trabajo caiga en ese nodo, no se descarga de nuevo. En otro nodo, sí.
 - Un archivo `.sqsh` que guardaste en tu *home* se ve desde **todos los nodos**. Por eso conviene para imágenes que usas seguido.
-- Carpetas de proyecto compartidas para imágenes (`/data/<grupo>`): por confirmar.
+- Un `.sqsh` que guardas en la carpeta de tu proyecto (`/data/proyectos/<proyecto>`) lo puede usar todo tu equipo. Ocupa parte de los 5 TB del proyecto.
 
 ## Errores comunes
 
@@ -208,7 +208,7 @@ srun -p CPU --time=01:00:00 --mem=32G \
 | el trabajo muere con `Out Of Memory` mientras dice «Creating squashfs filesystem» | la memoria del trabajo no alcanza para convertir la imagen | imagen mediana: pide `--mem=32G` o más; imagen grande (decenas de GB): usa `enroot import` o una imagen compartida (ver [Imágenes grandes](#tu-primer-contenedor-cpu)) |
 | `No space left on device` mientras dice «Creating squashfs filesystem» | la imagen es demasiado grande para convertirla dentro del trabajo | usa `enroot import` (ver [Imágenes grandes](#tu-primer-contenedor-cpu)) o una [imagen compartida](imagenes.md) |
 | `nvidia-smi: command not found` o no ve GPUs | no pediste GPU, o la imagen no es para esa GPU | agrega `--gres=gpu:<tipo>:1` y usa imágenes CUDA en `rtx6000ada`; en `mi210` usa imágenes ROCm y revisa con `rocminfo` |
-| `No such file or directory` para tus datos | la carpeta no está montada | usa `--container-mounts` o una ruta dentro de tu *home* |
+| `No such file or directory` para tus datos | la carpeta no está montada | usa `--container-mounts`, o una ruta dentro de tu *home* o de `/data/proyectos` |
 | la primera ejecución tarda mucho | se está descargando la imagen | normal; guarda un `.sqsh` para las siguientes |
 
 ## ¿Y si mi software no tiene imagen?
