@@ -60,3 +60,5 @@ En total: **más de 900 núcleos de CPU, 12 GPUs y más de 6 TB de RAM**, admini
     [:octicons-arrow-right-24: Agradecimientos](agradecimientos.md)
 
 </div>
+
+¿Tu grupo quiere sumar equipos o almacenamiento? Ver [Contribuir a Chuchunco](contribuir.md).
