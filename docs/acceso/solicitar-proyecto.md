@@ -30,6 +30,9 @@ Si tu proyecto necesita más, igual puedes pedirlo en el mismo formulario: el co
 2. Te respondemos en un plazo de **3 días hábiles**.
 3. Si el proyecto se aprueba, te llega un correo con el **enlace de invitación**. Compártelo con los integrantes de tu equipo: cada uno lo usa para [unirse al proyecto](unirse.md). Tú apruebas a cada persona que se une.
 
+!!! warning "Tu cuenta no se crea sola"
+    Aprobar el proyecto no crea tu cuenta. Si tú vas a usar el clúster, pide también tu cuenta con el formulario [Unirse a un proyecto](unirse.md), con el enlace que te llegará al aprobarse el proyecto (o el código del proyecto) y tu llave SSH.
+
 ## Informe anual de productos
 
 Una vez al año te pediremos un informe con los productos del proyecto (papers, tesis, datasets, pósters, software) que usaron el clúster. Para que sea rápido, registra cada producto cuando salga, en el [formulario de productos](../agradecimientos.md), y usa el texto de agradecimiento.
