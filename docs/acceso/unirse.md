@@ -1,5 +1,7 @@
 # Unirse a un proyecto
 
+**También si eres el/la responsable del proyecto:** aprobar tu proyecto no crea tu cuenta. Si vas a usar el clúster, pide tu cuenta con este formulario, con el enlace de invitación (o el código del proyecto) y tu llave SSH.
+
 !!! abstract "In English: for external collaborators"
     To get an account on Chuchunco you join an existing project led by a USACH academic. Ask them for the **project code or invitation link**, create an SSH key ([instructions](conectarse.md#1-genera-tu-llave-ssh)), and fill in the form below, pasting **only your public key** (the `.pub` file). You will get an email to confirm your address; then the project lead approves you, and then we do. We will request a USACH VPN account for you, which you need to connect from outside the university.
 

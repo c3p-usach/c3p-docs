@@ -93,6 +93,9 @@
 
 ## Cuenta y archivos
 
+??? question "Aprobaron mi proyecto pero no puedo entrar"
+    Aprobar el proyecto no crea tu cuenta, ni siquiera la del o la responsable. Si vas a usar el clúster, pide tu cuenta con el formulario [Unirse a un proyecto](acceso/unirse.md), con el enlace de invitación que te llegó al aprobarse el proyecto (o el código del proyecto) y tu llave SSH. Cuando la cuenta esté creada te avisamos por correo.
+
 ??? question "¿Dónde guardo mis datos?"
     En la carpeta de tu proyecto, `/data/proyectos/<proyecto>`, donde `<proyecto>` es el nombre de tu proyecto en Slurm (`sacctmgr show assoc user=$USER format=account%30`). Solo los miembros del proyecto pueden entrar, y tiene 5 TB para todo el equipo.
 
