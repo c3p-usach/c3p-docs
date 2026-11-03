@@ -9,7 +9,7 @@
 
 `<proyecto>` es el nombre corto de tu proyecto, el mismo de tu cuenta en Slurm: lo que muestra `sacctmgr show assoc user=$USER format=account%30` (por ejemplo, `mi-proyecto`). Si estás en varios proyectos, tienes una carpeta por cada uno.
 
-Las dos carpetas viven en el almacenamiento CEPH del clúster y son **las mismas en todos los nodos**: lo que guardas desde el nodo de entrada lo ve tu trabajo en cualquier nodo de cómputo. En total hay unos **245 TiB utilizables**, compartidos por todos.
+Las dos carpetas viven en el almacenamiento CEPH del clúster y son **las mismas en todos los nodos**: lo que guardas desde el nodo de entrada lo ve tu trabajo en cualquier nodo de cómputo. En total hay unos **245 TiB utilizables**, compartidos por todos (para ampliarlo, ver [Contribuir a Chuchunco](../contribuir.md#aportes-para-la-infraestructura-comun)).
 
 !!! danger "No hay respaldo"
     CEPH guarda cada dato 3 veces, en servidores distintos, para tolerar fallas de discos. Eso **no es un respaldo**: si borras un archivo, no se puede recuperar. Mantén una copia de lo importante (código en GitHub/GitLab, resultados finales en tu institución).

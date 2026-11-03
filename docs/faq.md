@@ -3,7 +3,10 @@
 ## Conexión
 
 ??? question "Mi conexión SSH se queda esperando y nunca pide la frase de paso"
-    Es un problema de red: solo se puede entrar desde la red cableada USACH o por VPN. Conéctate a la VPN y prueba de nuevo. Ver [Conectarse](acceso/conectarse.md#si-la-conexion-se-queda-pegada).
+    Es el cortafuegos de la universidad: solo deja entrar desde algunas redes cableadas de la USACH y por VPN cuando tu acceso está habilitado. Escribe a hpc.fisica@usach.cl con tu usuario y la red desde la que te conectas, y pedimos que te habiliten. Ver [Si la conexión «se queda pegada»](acceso/conectarse.md#si-la-conexion-se-queda-pegada).
+
+??? question "¿Puedo entrar desde otro computador?"
+    Sí. Crea una llave nueva en ese computador y agrégala a `~/.ssh/authorized_keys` desde un computador que ya funcione. No copies tu llave privada. Paso a paso en [Conectarte desde otro computador](acceso/conectarse.md#conectarte-desde-otro-computador).
 
 ??? question "Me dice `Permission denied (publickey)`"
     El servidor no reconoce tu llave. Revisa que pegaste en el formulario el contenido del archivo `.pub` correcto y que usas el usuario correcto. Prueba `ssh -i ~/.ssh/id_ed25519 nombre.apellido@158.170.68.170`.
@@ -51,6 +54,9 @@
 
 ??? question "Mi trabajo terminó con `TIMEOUT`"
     Pasó del tiempo pedido. Si no pusiste `--time`, el límite es 4 horas. Pide más con `--time` (máximo 7 días: `--time=7-00:00:00`). Para cálculos aún más largos, ver [Trabajos más largos que 7 días](uso/ejemplos.md#trabajos-mas-largos-que-7-dias).
+
+??? question "¿Puedo pedir más tiempo para un trabajo que ya está corriendo?"
+    Sí, caso a caso. Un administrador puede extender un trabajo **que ya está corriendo**. Escribe a hpc.fisica@usach.cl **antes de que termine**, con el ID del trabajo, cuánto tiempo más necesitas y por qué. Para cálculos largos, igual conviene guardar el avance (*checkpoint*): ver [Trabajos más largos que 7 días](uso/ejemplos.md#trabajos-mas-largos-que-7-dias).
 
 ??? question "¿Cómo entro al nodo donde corre mi trabajo?"
     No por SSH, sino con `srun`, desde el nodo de entrada:

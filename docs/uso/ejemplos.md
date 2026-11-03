@@ -104,6 +104,8 @@ sbatch --dependency=afterok:$primero parte2.sh
 
 El segundo empieza solo cuando el primero termina bien.
 
+Si un trabajo que ya está corriendo necesita un poco más de tiempo, un administrador puede extenderlo caso a caso: escribe a hpc.fisica@usach.cl antes de que termine, con el ID del trabajo, cuánto tiempo más y por qué. Aun así, usa *checkpoints* para los cálculos largos.
+
 ## Ver cuánto usó un trabajo
 
 ```bash

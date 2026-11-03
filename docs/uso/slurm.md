@@ -18,7 +18,7 @@ Una partición es un grupo de nodos. Elige la tuya con `-p` (o `--partition`).
 En todas las particiones:
 
 - **Tiempo por defecto: 4 horas.** Si no pones `--time`, tu trabajo se detiene a las 4 horas.
-- **Tiempo máximo: 7 días** (`--time=7-00:00:00`).
+- **Tiempo máximo: 7 días** (`--time=7-00:00:00`). Un administrador puede extender, caso a caso, un trabajo que ya está corriendo: escribe a hpc.fisica@usach.cl antes de que termine, con el ID del trabajo, cuánto tiempo más y por qué.
 - **Un nodo por trabajo.** Ver [abajo](#un-nodo-por-trabajo).
 
 !!! note "¿Qué es una «CPU» en Slurm?"

@@ -3,7 +3,7 @@
 Esta página te lleva paso a paso desde conectarte hasta ver los resultados de tu primer trabajo. No necesitas saber Slurm. Copia y pega cada comando.
 
 !!! info "Antes de empezar"
-    Necesitas una **cuenta aprobada** en un proyecto ([Solicitar una cuenta](../acceso/solicitar-cuenta.md)) y tu **llave SSH** ([Conectarse por SSH](../acceso/conectarse.md)). Conéctate desde la red cableada USACH o por VPN.
+    Necesitas una **cuenta aprobada** en un proyecto ([Solicitar una cuenta](../acceso/solicitar-cuenta.md)) y tu **llave SSH** ([Conectarse por SSH](../acceso/conectarse.md)). Conéctate desde una red de la USACH habilitada o por VPN (ver [¿Desde dónde puedo conectarme?](../acceso/conectarse.md)).
 
 ## La idea en 30 segundos
 
