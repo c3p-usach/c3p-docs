@@ -41,7 +41,7 @@ En total: **más de 900 núcleos de CPU, 12 GPUs y más de 6 TB de RAM**, admini
 -   :material-console:{ .lg } **2 · Conéctate**
 
     ---
-    SSH desde la red USACH o por VPN.
+    SSH desde redes USACH habilitadas o por VPN.
 
     [:octicons-arrow-right-24: Conectarse](acceso/conectarse.md)
 

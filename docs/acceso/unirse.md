@@ -27,10 +27,14 @@
 
 Tu nombre de usuario será la parte de tu correo USACH antes de la `@` (por ejemplo `nombre.apellido`). Antes de conectarte, lee las [reglas de uso](reglas.md).
 
+**También si eres de la USACH:** para conectarte por VPN, tu acceso al clúster debe estar habilitado en el cortafuegos de la universidad. Lo gestionamos nosotros cuando se aprueba tu ingreso. Ver [¿Desde dónde puedo conectarme?](conectarse.md).
+
 ## Usuarios externos
 
 Si eres de otra institución, necesitas además una **cuenta VPN USACH** para conectarte desde fuera de la universidad. La solicitamos nosotros por ti cuando se aprueba tu ingreso.
 
 ## Cambiar tu llave o unirte a otro proyecto
 
-Usa este mismo formulario para **cambiar tu llave SSH** (por ejemplo, si cambiaste de computador) o para **unirte a otro proyecto**. Tu cuenta sigue siendo la misma.
+Usa este mismo formulario para **cambiar tu llave SSH** o para **unirte a otro proyecto**. Tu cuenta sigue siendo la misma. El cambio de llave **reemplaza todas tus llaves** por la nueva: úsalo, por ejemplo, si crees que una llave pudo filtrarse.
+
+Si solo quieres entrar también desde otro computador, no necesitas el formulario: ver [Conectarte desde otro computador](conectarse.md#conectarte-desde-otro-computador).
