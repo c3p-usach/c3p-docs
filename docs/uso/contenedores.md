@@ -86,6 +86,15 @@ Pide la GPU con `--gres`, igual que sin contenedor:
 
 Dentro del contenedor ves **solo las GPUs que pediste**.
 
+!!! warning "Imágenes NVIDIA (CUDA) en nodos sin GPU NVIDIA"
+    En los nodos sin GPU NVIDIA (particiones `CPU` y `MEM`, y `gpun1`), una imagen de NVIDIA (CUDA) falla con `nvidia-container-cli: not found`. Para usarla igual, agrega `NVIDIA_VISIBLE_DEVICES=void` al inicio del comando:
+
+    ```bash
+    NVIDIA_VISIBLE_DEVICES=void srun -p CPU --time=00:10:00 \
+         --container-image=nvcr.io#nvidia/cuda:12.6.3-base-ubuntu24.04 \
+         cat /etc/os-release
+    ```
+
 ## Cómo se escribe el nombre de una imagen
 
 | Origen | Ejemplo |
@@ -208,6 +217,7 @@ srun -p CPU --time=01:00:00 --mem=32G \
 | el trabajo muere con `Out Of Memory` mientras dice «Creating squashfs filesystem» | la memoria del trabajo no alcanza para convertir la imagen | imagen mediana: pide `--mem=32G` o más; imagen grande (decenas de GB): usa `enroot import` o una imagen compartida (ver [Imágenes grandes](#tu-primer-contenedor-cpu)) |
 | `No space left on device` mientras dice «Creating squashfs filesystem» | la imagen es demasiado grande para convertirla dentro del trabajo | usa `enroot import` (ver [Imágenes grandes](#tu-primer-contenedor-cpu)) o una [imagen compartida](imagenes.md) |
 | `nvidia-smi: command not found` o no ve GPUs | no pediste GPU, o la imagen no es para esa GPU | agrega `--gres=gpu:<tipo>:1` y usa imágenes CUDA en `rtx6000ada`; en `mi210` usa imágenes ROCm y revisa con `rocminfo` |
+| `nvidia-container-cli: not found` | imagen NVIDIA (CUDA) en un nodo sin GPU NVIDIA (`CPU`, `MEM`, `gpun1`) | ejecuta con `NVIDIA_VISIBLE_DEVICES=void srun --container-image=...` (ver [arriba](#tu-primer-contenedor-con-gpu)) |
 | `No such file or directory` para tus datos | la carpeta no está montada | usa `--container-mounts`, o una ruta dentro de tu *home* o de `/data/proyectos` |
 | la primera ejecución tarda mucho | se está descargando la imagen | normal; guarda un `.sqsh` para las siguientes |
 

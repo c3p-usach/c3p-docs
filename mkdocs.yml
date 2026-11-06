@@ -78,6 +78,7 @@ nav:
       - Tu primer trabajo: uso/primeros-pasos.md
       - "Slurm: colas y límites": uso/slurm.md
       - Software y Python: uso/software.md
+      - Compilar tu propio software: uso/compilar.md
       - Ejemplos de trabajos: uso/ejemplos.md
       - GPUs: uso/gpu.md
       - Contenedores (Pyxis/Enroot): uso/contenedores.md
