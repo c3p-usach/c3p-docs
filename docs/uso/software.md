@@ -1,12 +1,13 @@
 # Software y Python
 
-## Tres formas de tener tu software
+## Cuatro formas de tener tu software
 
 | Forma | Para qué | Dónde se explica |
 |---|---|---|
 | **Tu propio entorno de Python** | NumPy, SciPy, Matplotlib, Astropy y casi cualquier paquete de `pip` | [esta página](#tu-entorno-de-python-paso-a-paso) |
 | **Contenedores** | software pesado, con GPU (PyTorch, TensorFlow, CUDA, ROCm), o con muchas dependencias | [Contenedores](contenedores.md); para PyTorch hay [imágenes listas](imagenes.md) |
-| **Lo que ya trae el sistema** | Python 3, `python3-venv` y `gnuplot` (sin ventanas) | [esta página](#gnuplot) |
+| **Compilarlo tú** | programas en C, C++ o Fortran, con o sin MPI (LAMMPS, por ejemplo) | [Compilar tu propio software](compilar.md) |
+| **Lo que ya trae el sistema** | Python 3, `python3-venv`, `gnuplot` (sin ventanas) y herramientas de compilación (GCC, CMake, OpenMPI, FFTW) | [esta página](#gnuplot) |
 
 El clúster **no instala paquetes de Python para todos**. Cada persona crea su propio entorno, con las versiones que necesita. Así un cambio para una persona no rompe el trabajo de otra.
 
@@ -171,4 +172,5 @@ curva.pdf  curva.png
 
 1. Busca si existe una **imagen de contenedor** oficial (Docker Hub, NVIDIA NGC, AMD ROCm): ver [Contenedores](contenedores.md).
 2. Si es un paquete de Python, instálalo en tu entorno.
-3. Si no encuentras forma, escríbenos a hpc.fisica@usach.cl con el nombre y la versión. Para software con licencia (MATLAB, por ejemplo) primero revisamos las condiciones de la licencia.
+3. Si se distribuye como código fuente, compílalo tú: ver [Compilar tu propio software](compilar.md).
+4. Si no encuentras forma, escríbenos a hpc.fisica@usach.cl con el nombre y la versión. Para software con licencia (MATLAB, por ejemplo) primero revisamos las condiciones de la licencia.
