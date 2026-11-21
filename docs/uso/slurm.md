@@ -186,6 +186,7 @@ srun --jobid=<jobid> --overlap --pty bash
 | Opción | Significado |
 |---|---|
 | `--partition=CPU` | partición |
+| `--nodes=1` | número de nodos: **cada trabajo usa un solo nodo** (ver abajo) |
 | `--ntasks=64` | número de procesos (MPI) |
 | `--cpus-per-task=8` | CPUs por proceso (OpenMP, Python multiproceso) |
 | `--mem=32G` | memoria del trabajo |
@@ -198,5 +199,10 @@ srun --jobid=<jobid> --overlap --pty bash
 
 !!! note "Sin avisos por correo"
     Por ahora el clúster **no envía correos**: `--mail-type` y `--mail-user` no hacen nada. Revisa tus trabajos con `squeue` y `sacct`.
+
+!!! note "Un nodo por trabajo"
+    En Chuchunco cada trabajo corre en **un solo nodo** (`MaxNodes=1` en las particiones `CPU`, `MEM` y `GPU`). Un nodo de cómputo ya tiene 256 hilos (`CPU`) o 4 GPUs (`GPU`), y la red entre nodos no está pensada para cálculos muy acoplados entre máquinas. MPI dentro de un nodo funciona normalmente.
+
+    Si tu proyecto realmente necesita varios nodos, escríbenos explicando por qué. Si se aprueba, habilitamos la opción para la cuenta Slurm de tu proyecto y envías con `--qos=multinodo --nodes=N`.
 
 Más ejemplos en [Ejemplos de trabajos](ejemplos.md).
