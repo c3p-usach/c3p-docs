@@ -7,7 +7,7 @@ Para que podamos ayudarte rápido, incluye:
 - tu nombre de usuario,
 - el **ID del trabajo** (`jobid`) si aplica,
 - el comando o script que usaste y el mensaje de error completo,
-- la red desde la que te conectas (cableada USACH, VPN, externa).
+- la red desde la que te conectas (qué red cableada USACH, VPN, externa).
 
 {{ formulario: soporte }}
 

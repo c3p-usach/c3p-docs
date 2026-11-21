@@ -19,3 +19,7 @@ Un formulario por producto (paper, tesis, dataset, póster, software):
 {{ formulario: productos }}
 
 Si publicaste sin incluir el agradecimiento, escríbenos igual: podemos emitir una carta de respaldo para contabilizar el producto.
+
+## Cartas de apoyo para postulaciones
+
+Si postulas a fondos con un proyecto que usa Chuchunco, podemos emitir una carta que indique cuánto aporta la universidad. Ver [Valorización de servicios](valorizacion.md).

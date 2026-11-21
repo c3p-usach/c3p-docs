@@ -1,29 +1,121 @@
 # Preguntas frecuentes
 
+## Conexión
+
 ??? question "Mi conexión SSH se queda esperando y nunca pide la frase de paso"
-    Es un problema de red: solo se puede entrar desde la red cableada USACH o por VPN. Conéctate a la VPN y prueba de nuevo. Ver [Conectarse](acceso/conectarse.md#si-la-conexion-se-queda-pegada).
+    Es el cortafuegos de la universidad: solo deja entrar desde algunas redes cableadas de la USACH y por VPN cuando tu acceso está habilitado. Escribe a hpc.fisica@usach.cl con tu usuario y la red desde la que te conectas, y pedimos que te habiliten. Ver [Si la conexión «se queda pegada»](acceso/conectarse.md#si-la-conexion-se-queda-pegada).
+
+??? question "¿Puedo entrar desde otro computador?"
+    Sí. Crea una llave nueva en ese computador y agrégala a `~/.ssh/authorized_keys` desde un computador que ya funcione. No copies tu llave privada. Paso a paso en [Conectarte desde otro computador](acceso/conectarse.md#conectarte-desde-otro-computador).
 
 ??? question "Me dice `Permission denied (publickey)`"
     El servidor no reconoce tu llave. Revisa que pegaste en el formulario el contenido del archivo `.pub` correcto y que usas el usuario correcto. Prueba `ssh -i ~/.ssh/id_ed25519 nombre.apellido@158.170.68.170`.
 
-??? question "Mi trabajo lleva mucho tiempo en estado `PD` (pendiente)"
+    Si te pasa al hacer `ssh` a un nodo de cómputo (`ssh cpun1`), es normal: los nodos de cómputo no aceptan SSH de usuarios. Usa `srun --pty bash` ([Sesión interactiva](uso/slurm.md#sesion-interactiva)).
+
+## Trabajos
+
+??? question "Mi trabajo está PENDING (`PD`) hace mucho rato"
     Mira la razón en la columna `NODELIST(REASON)` de `squeue -u $USER`:
 
-    - `Resources`: no hay recursos libres ahora; espera.
-    - `Priority`: hay otros trabajos antes que el tuyo.
-    - `ReqNodeNotAvail`: pediste algo que no existe o un nodo en mantención (revisa la partición, `--gres` y `--mem`).
+    - `Priority`: hay trabajos con más prioridad antes que el tuyo. Van primero los proyectos que han usado menos el clúster recientemente.
+    - `Resources`: eres el siguiente, pero aún no hay recursos libres.
+    - `QOSMaxCpuPerUserLimit`: ya tienes 512 CPUs en uso. Espera a que terminen tus otros trabajos.
+    - `QOSMaxGRESPerUser`: ya tienes 4 GPUs en uso. Lo mismo.
+    - `ReqNodeNotAvail`: pediste un nodo que no está disponible ahora (por ejemplo, en mantención).
 
-??? question "Mi trabajo terminó con `OUT_OF_MEMORY` o se cayó sin aviso"
-    Pide más memoria con `--mem`. Revisa cuánto usó con `seff <jobid>`.
+    Un trabajo pequeño y con `--time` ajustado suele empezar antes. Más detalle en [¿Por qué mi trabajo está pendiente?](uso/slurm.md#por-que-mi-trabajo-esta-pendiente).
+
+??? question "Me dice `Invalid account or account/partition combination specified`"
+    Tu cuenta no está asociada a un proyecto aprobado, o pediste un proyecto (`-A`) al que no perteneces. Revisa tus proyectos:
+
+    ```bash
+    sacctmgr show assoc user=$USER format=account%30,qos%20
+    ```
+
+    Si no aparece ninguno, escribe a hpc.fisica@usach.cl. Si aparece más de uno, elige con `-A <proyecto>`.
+
+??? question "Mi trabajo terminó con `OUT_OF_MEMORY` («Out Of Memory»)"
+    Tu programa usó más memoria de la que pediste, y Slurm lo detuvo. No hay *swap*: no se puede pasar del límite.
+
+    En el archivo de salida del trabajo verás líneas como estas (el nodo y los números cambian):
+
+    ```text
+    slurmstepd-cpun1: error: Detected 1 oom_kill event in StepId=264.0. Some of the step tasks have been OOM Killed.
+    srun: error: cpun1: task 0: Out Of Memory
+    ```
+
+    Qué hacer:
+
+    1. Mira cuánto usó: `sacct -j <jobid> -o JobID,Elapsed,MaxRSS,ReqMem,State` (columna `MaxRSS`).
+    2. Pide un poco más con `--mem` (por ejemplo `--mem=32G`).
+
+    Si no pones `--mem`, recibes 2,9 GB por CPU en `CPU`, 3,9 GB en `MEM` y 5 GB en `GPU`.
+
+??? question "Mi trabajo terminó con `TIMEOUT`"
+    Pasó del tiempo pedido. Si no pusiste `--time`, el límite es 4 horas. Pide más con `--time` (máximo 7 días: `--time=7-00:00:00`). Para cálculos aún más largos, ver [Trabajos más largos que 7 días](uso/ejemplos.md#trabajos-mas-largos-que-7-dias).
+
+??? question "¿Puedo pedir más tiempo para un trabajo que ya está corriendo?"
+    Sí, caso a caso. Un administrador puede extender un trabajo **que ya está corriendo**. Escribe a hpc.fisica@usach.cl **antes de que termine**, con el ID del trabajo, cuánto tiempo más necesitas y por qué. Para cálculos largos, igual conviene guardar el avance (*checkpoint*): ver [Trabajos más largos que 7 días](uso/ejemplos.md#trabajos-mas-largos-que-7-dias).
+
+??? question "¿Cómo entro al nodo donde corre mi trabajo?"
+    No por SSH, sino con `srun`, desde el nodo de entrada:
+
+    ```bash
+    srun --jobid=<jobid> --overlap --pty bash
+    ```
+
+    Abre una terminal dentro de tu trabajo, en su nodo, y ahí puedes mirar con `top` cuánto usa. `--overlap` es necesario: sin esa opción, `srun` se queda esperando. Solo funciona con tus propios trabajos. Sal con `exit`; el trabajo sigue corriendo. Ver [Entrar a un trabajo que ya está corriendo](uso/slurm.md#entrar-a-un-trabajo-que-ya-esta-corriendo).
+
+??? question "¿Puedo usar más de un nodo?"
+    Por defecto, no: cada trabajo usa un solo nodo, y un nodo `CPU` ya tiene 256 CPUs. MPI y multihilo dentro de un nodo funcionan sin problema (`--nodes=1 --ntasks-per-node=…`).
+
+    Si tu programa de verdad necesita varios nodos, el o la responsable de tu proyecto puede pedirlo a hpc.fisica@usach.cl. Se aprueba por proyecto, y entonces se usa `--qos=multinodo`. Ver [Un nodo por trabajo](uso/slurm.md#un-nodo-por-trabajo).
+
+??? question "¿Me llegan correos cuando mi trabajo termina?"
+    No, por ahora no. `--mail-type` y `--mail-user` no hacen nada. Revisa tus trabajos con `squeue -u $USER` y, cuando terminen, con `sacct`.
+
+??? question "¿Hay límites por usuario?"
+    Sí. Cada trabajo: hasta 7 días y un nodo. Cada persona: hasta 512 CPUs y 4 GPUs en uso al mismo tiempo; los trabajos que pasen de eso esperan en la cola. Ver [Slurm: colas y límites](uso/slurm.md).
+
+## Software
+
+??? question "¿Cómo instalo numpy (u otro paquete de Python)?"
+    En tu propio entorno de Python:
+
+    ```bash
+    python3 -m venv ~/venvs/ciencia
+    source ~/venvs/ciencia/bin/activate
+    pip install numpy
+    ```
+
+    Y en tu script de trabajo, antes de llamar a Python: `source ~/venvs/ciencia/bin/activate`. Paso a paso en [Software y Python](uso/software.md).
 
 ??? question "¿Puedo instalar software?"
-    Sí, en tu `/home` o `/data` (pip/conda en un entorno propio, compilar en tu carpeta) o, mejor, usando [contenedores](uso/contenedores.md). No tienes permisos de administrador (`sudo`).
-
-??? question "¿Cómo uso Python con mis propias librerías?"
-    Opción 1: un contenedor (`--container-image=python:3.12`) e instalar con `pip install --user`. Opción 2: Miniforge/conda en tu `/home`. Evita instalar entornos enormes en `/home`; usa `/data`.
+    Sí, sin permisos de administrador: paquetes de Python en tu propio entorno ([Software y Python](uso/software.md)), o cualquier otro software con [contenedores](uso/contenedores.md). No hay `sudo` ni `module load`.
 
 ??? question "¿Puedo usar Jupyter?"
-    Por confirmar. Mientras tanto, trabaja con scripts y `sbatch`.
+    No disponible por ahora. Trabaja con scripts y `sbatch`.
 
-??? question "¿Hay cola o límites por usuario?"
-    Por confirmar. Por ahora pedimos usar los recursos con criterio (ver [Reglas de uso](acceso/reglas.md)).
+## Cuenta y archivos
+
+??? question "Aprobaron mi proyecto pero no puedo entrar"
+    Aprobar el proyecto no crea tu cuenta, ni siquiera la del o la responsable. Si vas a usar el clúster, pide tu cuenta con el formulario [Unirse a un proyecto](acceso/unirse.md), con el enlace de invitación que te llegó al aprobarse el proyecto (o el código del proyecto) y tu llave SSH. Cuando la cuenta esté creada te avisamos por correo.
+
+??? question "¿Dónde guardo mis datos?"
+    En la carpeta de tu proyecto, `/data/proyectos/<proyecto>`, donde `<proyecto>` es el nombre de tu proyecto en Slurm (`sacctmgr show assoc user=$USER format=account%30`). Solo los miembros del proyecto pueden entrar, y tiene 5 TB para todo el equipo.
+
+    Tu carpeta personal (`/home/<usuario>`, 1 TB) es para código, scripts, entornos de Python y resultados pequeños, no para datos. Ninguna de las dos tiene respaldo. Ver [Almacenamiento y datos](uso/almacenamiento.md).
+
+??? question "Me sale `Disk quota exceeded`"
+    La carpeta donde escribes llegó a su límite: 5 TB la del proyecto (para todo el equipo) o 1 TB tu *home*. Mira cuánto se usa:
+
+    ```bash
+    numfmt --to=iec $(getfattr --only-values -n ceph.dir.rbytes /data/proyectos/<proyecto>)
+    numfmt --to=iec $(getfattr --only-values -n ceph.dir.rbytes ~)
+    ```
+
+    Borra lo que ya no necesites. Si el proyecto de verdad necesita más espacio, pídelo a hpc.fisica@usach.cl, explicando para qué. Ver [Si llegas al límite](uso/almacenamiento.md#si-llegas-al-limite).
+
+??? question "¿Qué pasa con mis archivos si me voy o mi proyecto termina?"
+    Tu cuenta se bloquea, pero tus archivos se quedan. A los 6 meses tu *home* se archiva y se borra del clúster (te avisamos por correo antes), y el archivo se guarda 18 meses más. Antes de esa fecha puedes pedir acceso para copiar tus datos. Detalles en [Cuando dejas el clúster](acceso/reglas.md#cuando-dejas-el-cluster).

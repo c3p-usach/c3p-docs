@@ -42,6 +42,32 @@ command -v curl rsync || sudo apt install -y curl rsync
 
 If nginx serves the site from another folder, either change the vhost's `root` to `/var/www/c3p` or run the script with `sudo WEBROOT=/that/folder publish-c3p-site …`.
 
+**A2b. Redirect `/…/` addresses to `.html` in nginx.** The site is built with `use_directory_urls: false`, so pages live at `/acceso/unirse.html`. The 29-10-2026 announcement email linked `/acceso/unirse/`, `/acceso/solicitar-proyecto/`, `/uso/imagenes/` and `/agradecimientos/`, which gave 404. Serving the `.html` at the `/…/` address breaks CSS/JS (relative paths), so nginx redirects instead. This has been live on c3p since 29-10-2026; this step is for rebuilding the vhost. The vhost `/etc/nginx/sites-enabled/c3p` must contain the block in [`deploy/nginx-c3p-redireccion.conf`](../deploy/nginx-c3p-redireccion.conf), inside the HTTPS `server { server_name c3p.usach.cl …; root /var/www/c3p; … }`, right after `location / { try_files $uri $uri/ =404; }`:
+
+```nginx
+location ~ ^/(?<pagina>.+)/$ {
+    if (-f $document_root/$pagina.html) { return 301 /$pagina.html; }
+    try_files $uri ${uri}index.html =404;
+}
+```
+
+To add it:
+
+```bash
+ssh c3p
+sudo nano /etc/nginx/sites-enabled/c3p     # paste the block after  location / { … }
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+To check (from anywhere):
+
+```bash
+curl -s -o /dev/null -w '%{http_code} -> %{redirect_url}\n' https://c3p.usach.cl/acceso/unirse/
+# 301 -> https://c3p.usach.cl/acceso/unirse.html
+```
+
+To undo: delete the block with `sudo nano /etc/nginx/sites-enabled/c3p`, then `sudo nginx -t && sudo systemctl reload nginx`. The `/…/` addresses go back to 404.
+
 **A3. Install the publish command on c3p.** This works only **after A1**, because the script is downloaded from `main`. Do it once, and again only if `deploy/publish-site.sh` changes:
 
 ```bash
