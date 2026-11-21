@@ -20,7 +20,7 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 ## MPI en un nodo
 
-Varios procesos MPI, todos en el mismo nodo. Un nodo `CPU` tiene 256 CPUs. La forma recomendada es usar un contenedor con tu programa MPI (ver [Contenedores](contenedores.md)):
+Varios procesos MPI, todos en el mismo nodo. Un nodo `CPU` tiene 256 CPUs. La forma recomendada es usar un contenedor con tu programa MPI (ver [Contenedores](../software/contenedores.md)):
 
 ```bash
 #!/bin/bash
@@ -90,7 +90,7 @@ python3 simular.py --semilla $SLURM_ARRAY_TASK_ID \
 ```
 
 - `%A` es el número del arreglo y `%a` el índice de cada trabajo.
-- Crea las carpetas antes de enviarlo: `mkdir -p /data/proyectos/mi-proyecto/{logs,resultados}`.
+- Crea las carpetas antes de enviarlo: `mkdir -p /data/proyectos/mi-proyecto/{logs,resultados}`. Si también escriben en ellas otras personas de tu equipo, ver [Carpetas donde escribe todo tu equipo](almacenamiento.md#carpetas-donde-escribe-todo-tu-equipo).
 - Cada trabajo del arreglo cuenta para tu límite de 512 CPUs. Aquí, 20 a la vez × 2 CPUs = 40 CPUs.
 
 ## Trabajos más largos que 7 días

@@ -17,7 +17,7 @@ Las dos carpetas viven en el almacenamiento CEPH del clúster y son **las mismas
 ## La carpeta del proyecto
 
 - Solo los miembros del proyecto pueden entrar en ella.
-- Los archivos que creas ahí pertenecen al grupo del proyecto y el grupo puede escribir en ellos: tu equipo puede leer y editar los archivos de los demás.
+- Los archivos y carpetas que creas ahí pertenecen al grupo del proyecto: tu equipo puede **leerlos**, pero **no modificarlos**, salvo que tú lo permitas (ver abajo).
 - Si te acaban de agregar a un proyecto, tendrás acceso a su carpeta la próxima vez que te conectes.
 
 ```bash
@@ -25,6 +25,22 @@ ls /data/proyectos                  # busca la carpeta de tu proyecto
 cd /data/proyectos/mi-proyecto
 mkdir -p datos resultados
 ```
+
+### Carpetas donde escribe todo tu equipo
+
+Si otras personas de tu grupo deben escribir en una carpeta que creaste tú (por ejemplo, una carpeta `logs/` común para los trabajos), dale permiso de escritura al grupo:
+
+```bash
+chmod g+w /data/proyectos/mi-proyecto/logs
+```
+
+Para que todo lo que crees de ahora en adelante quede así, agrega `umask 002` a tu `~/.bashrc`:
+
+```bash
+echo 'umask 002' >> ~/.bashrc
+```
+
+Si falta este permiso, el trabajo de otra persona que escribe en esa carpeta **termina al instante, sin archivo de salida**.
 
 ## Copiar datos
 
