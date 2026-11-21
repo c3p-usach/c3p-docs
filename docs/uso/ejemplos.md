@@ -20,7 +20,7 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 ## MPI en un nodo
 
-Varios procesos MPI, todos en el mismo nodo. Un nodo `CPU` tiene 256 CPUs. La forma recomendada es usar un contenedor con tu programa MPI (ver [Contenedores](contenedores.md)):
+Cada trabajo usa un solo nodo (ver [Slurm](slurm.md)). La forma recomendada es usar un contenedor con tu stack MPI (ver [Contenedores](contenedores.md)):
 
 ```bash
 #!/bin/bash
@@ -36,10 +36,7 @@ srun --mpi=pmix \
      mi_programa_mpi
 ```
 
-`srun` lanza los 64 procesos. No uses `mpirun` dentro del script.
-
-!!! info "¿Necesitas más de un nodo?"
-    Por defecto, cada trabajo usa un solo nodo, y un trabajo con `--nodes=2` o más se rechaza. Si tu programa de verdad necesita varios nodos, el o la responsable de tu proyecto puede pedirlo a hpc.fisica@usach.cl. Si se aprueba, se agrega `#SBATCH --qos=multinodo` al script. Ver [Un nodo por trabajo](slurm.md#un-nodo-por-trabajo).
+Si tu proyecto tiene aprobado el uso de varios nodos, agrega `#SBATCH --qos=multinodo` y cambia `--nodes`.
 
 ## Mucha memoria
 
