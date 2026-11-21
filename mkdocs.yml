@@ -47,6 +47,11 @@ plugins:
   - search:
       lang: es
   - offline                  # permite abrir site/index.html directamente (búsqueda incluida)
+not_in_nav: |              # páginas que se movieron: quedan como aviso con enlace, fuera del menú
+  /uso/software.md
+  /uso/contenedores.md
+  /uso/compilar.md
+  /uso/imagenes.md
 validation:                # con --strict, cualquier enlace interno roto detiene el build
   omitted_files: warn
   absolute_links: warn
@@ -77,15 +82,21 @@ nav:
   - Uso del clúster:
       - Tu primer trabajo: uso/primeros-pasos.md
       - "Slurm: colas y límites": uso/slurm.md
-      - Software y Python: uso/software.md
-      - Compilar tu propio software: uso/compilar.md
       - Ejemplos de trabajos: uso/ejemplos.md
       - GPUs: uso/gpu.md
-      - Contenedores (Pyxis/Enroot): uso/contenedores.md
-      - Imágenes disponibles: uso/imagenes.md
       - Almacenamiento y datos: uso/almacenamiento.md
+  - Software:
+      - Cómo conseguir software: software/index.md
+      - Python: software/python.md
+      - Contenedores: software/contenedores.md
+      - Compilar: software/compilar.md
+      - Software disponible: software/catalogo.md
+      - LAMMPS: software/lammps.md
+      - PyTorch: software/pytorch.md
+      - gnuplot: software/gnuplot.md
   - Preguntas frecuentes: faq.md
-  - Agradecimientos y productos: agradecimientos.md
-  - Contribuir a Chuchunco: contribuir.md
-  - Valorización de servicios: valorizacion.md
-  - Contacto: contacto.md
+  - Sobre C3P:
+      - Agradecimientos y productos: agradecimientos.md
+      - Contribuir a Chuchunco: contribuir.md
+      - Valorización de servicios: valorizacion.md
+      - Contacto: contacto.md

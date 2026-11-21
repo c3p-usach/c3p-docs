@@ -137,6 +137,25 @@ Puedes enviar más trabajos: los que pasen del límite esperan en la cola hasta 
 
 Para más detalle: `scontrol show job <jobid>`.
 
+## Si un nodo falla, tu trabajo vuelve a empezar
+
+Si falla el nodo donde corre tu trabajo (por ejemplo, por un corte de luz), Slurm vuelve a poner en la cola los trabajos por lotes que corrían en él. Cuando les toca de nuevo, **empiezan desde el principio**, con el mismo número de trabajo. Por eso:
+
+- el archivo de salida con `%j` en el nombre se sobrescribe;
+- los archivos que escribe tu programa también se sobrescriben, salvo que tu programa agregue al final de ellos.
+
+Qué hacer:
+
+- **Guarda el avance** (*checkpoint* o archivo de reinicio) y haz que tu programa pueda continuar desde ahí. En LAMMPS: `restart` en tu archivo de entrada, y `read_restart` para continuar.
+- **Si prefieres que no se reinicie**, agrega `#SBATCH --no-requeue`: el trabajo termina y tú decides qué hacer. Para un trabajo que ya está corriendo: `scontrol update jobid=<jobid> requeue=0`.
+- **Dentro del script**, la variable `SLURM_RESTART_COUNT` te dice que es un reinicio. Por ejemplo, para guardar los resultados anteriores antes de volver a empezar:
+
+    ```bash
+    if [ "${SLURM_RESTART_COUNT:-0}" -gt 0 ]; then
+        cp -r resultados "resultados-antes-del-reinicio-$SLURM_RESTART_COUNT"
+    fi
+    ```
+
 ## Sesión interactiva
 
 Para pruebas cortas, compilar o depurar en un nodo de cómputo:
@@ -176,6 +195,7 @@ srun --jobid=<jobid> --overlap --pty bash
 | `--array=1-100` | arreglo de trabajos (ver [Ejemplos](ejemplos.md#arreglo-de-trabajos-barrido-de-parametros)) |
 | `-A mi-proyecto` | proyecto al que se carga el trabajo |
 | `--output=%x_%j.out` | archivo de salida (`%x` nombre, `%j` número del trabajo) |
+| `--no-requeue` | si el nodo falla, el trabajo termina en vez de empezar de nuevo (ver [Si un nodo falla](#si-un-nodo-falla-tu-trabajo-vuelve-a-empezar)) |
 
 !!! note "Sin avisos por correo"
     Por ahora el clúster **no envía correos**: `--mail-type` y `--mail-user` no hacen nada. Revisa tus trabajos con `squeue` y `sacct`.

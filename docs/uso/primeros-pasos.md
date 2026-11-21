@@ -224,7 +224,7 @@ Tengo 2 CPU(s) asignadas
 Suma de raíces: 21081849486.44
 ```
 
-Este ejemplo solo usa la biblioteca estándar de Python. Para usar NumPy, SciPy, Matplotlib u otras, crea tu propio entorno: [Software y Python](software.md).
+Este ejemplo solo usa la biblioteca estándar de Python. Para usar NumPy, SciPy, Matplotlib u otras, crea tu propio entorno: [Python](../software/python.md).
 
 ## Si estás en varios proyectos
 
@@ -251,6 +251,6 @@ Si tu trabajo pasa del tiempo, Slurm lo detiene (`TIMEOUT`). Si usa más memoria
 ## Siguientes pasos
 
 - [Slurm: colas y límites](slurm.md): particiones, límites, prioridad y por qué un trabajo espera.
-- [Software y Python](software.md): instalar tus paquetes.
+- [Cómo conseguir software](../software/index.md): instalar tus paquetes y programas.
 - [Ejemplos de trabajos](ejemplos.md): multihilo, MPI en un nodo, mucha memoria, arreglos.
-- [GPUs](gpu.md) y [Contenedores](contenedores.md).
+- [GPUs](gpu.md) y [Contenedores](../software/contenedores.md).

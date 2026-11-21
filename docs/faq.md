@@ -55,6 +55,15 @@
 ??? question "Mi trabajo terminó con `TIMEOUT`"
     Pasó del tiempo pedido. Si no pusiste `--time`, el límite es 4 horas. Pide más con `--time` (máximo 7 días: `--time=7-00:00:00`). Para cálculos aún más largos, ver [Trabajos más largos que 7 días](uso/ejemplos.md#trabajos-mas-largos-que-7-dias).
 
+??? question "Mi trabajo se reinició solo"
+    Si falla el nodo donde corría (por ejemplo, por un corte de luz), Slurm vuelve a poner tu trabajo en la cola y este **empieza de nuevo desde el principio**, con el mismo número. El archivo de salida con `%j` y los archivos que escribe tu programa se sobrescriben, salvo que tu programa agregue al final de ellos.
+
+    - Guarda el avance (*checkpoint*) para poder continuar. En LAMMPS: `restart`, y luego `read_restart`.
+    - Si prefieres que el trabajo termine y decidir tú, agrega `#SBATCH --no-requeue`. Para uno que ya está corriendo: `scontrol update jobid=<jobid> requeue=0`.
+    - En el script, `SLURM_RESTART_COUNT` te dice que es un reinicio (por ejemplo, para copiar los resultados anteriores a otra carpeta antes de seguir).
+
+    Ver [Si un nodo falla, tu trabajo vuelve a empezar](uso/slurm.md#si-un-nodo-falla-tu-trabajo-vuelve-a-empezar).
+
 ??? question "¿Puedo pedir más tiempo para un trabajo que ya está corriendo?"
     Sí, caso a caso. Un administrador puede extender un trabajo **que ya está corriendo**. Escribe a hpc.fisica@usach.cl **antes de que termine**, con el ID del trabajo, cuánto tiempo más necesitas y por qué. Para cálculos largos, igual conviene guardar el avance (*checkpoint*): ver [Trabajos más largos que 7 días](uso/ejemplos.md#trabajos-mas-largos-que-7-dias).
 
@@ -89,10 +98,10 @@
     pip install numpy
     ```
 
-    Y en tu script de trabajo, antes de llamar a Python: `source ~/venvs/ciencia/bin/activate`. Paso a paso en [Software y Python](uso/software.md).
+    Y en tu script de trabajo, antes de llamar a Python: `source ~/venvs/ciencia/bin/activate`. Paso a paso en [Python](software/python.md).
 
 ??? question "¿Puedo instalar software?"
-    Sí, sin permisos de administrador: paquetes de Python en tu propio entorno ([Software y Python](uso/software.md)), o cualquier otro software con [contenedores](uso/contenedores.md). No hay `sudo` ni `module load`.
+    Sí, sin permisos de administrador: paquetes de Python en tu propio entorno ([Python](software/python.md)), o cualquier otro software con [contenedores](software/contenedores.md). No hay `sudo` ni `module load`. Ver [Cómo conseguir software](software/index.md) y [Software disponible](software/catalogo.md).
 
 ??? question "¿Puedo usar Jupyter?"
     No disponible por ahora. Trabaja con scripts y `sbatch`.
@@ -107,6 +116,11 @@
 
     Tu carpeta personal (`/home/<usuario>`, 1 TB) es para código, scripts, entornos de Python y resultados pequeños, no para datos. Ninguna de las dos tiene respaldo. Ver [Almacenamiento y datos](uso/almacenamiento.md).
 
+??? question "Mi trabajo termina al instante y no deja archivo de salida"
+    Si el trabajo escribe en una carpeta del proyecto que creó otra persona (por ejemplo, una carpeta `logs/` común), puede que tu grupo no tenga permiso de escritura en ella: en la carpeta del proyecto, tu equipo puede leer lo que creas, pero no modificarlo, salvo que lo permitas.
+
+    Quien creó la carpeta le da permiso al grupo con `chmod g+w <carpeta>`. Para que todo lo que crees quede así, agrega `umask 002` a tu `~/.bashrc`. Ver [Carpetas donde escribe todo tu equipo](uso/almacenamiento.md#carpetas-donde-escribe-todo-tu-equipo).
+
 ??? question "Me sale `Disk quota exceeded`"
     La carpeta donde escribes llegó a su límite: 5 TB la del proyecto (para todo el equipo) o 1 TB tu *home*. Mira cuánto se usa:
 
@@ -119,3 +133,6 @@
 
 ??? question "¿Qué pasa con mis archivos si me voy o mi proyecto termina?"
     Tu cuenta se bloquea, pero tus archivos se quedan. A los 6 meses tu *home* se archiva y se borra del clúster (te avisamos por correo antes), y el archivo se guarda 18 meses más. Antes de esa fecha puedes pedir acceso para copiar tus datos. Detalles en [Cuando dejas el clúster](acceso/reglas.md#cuando-dejas-el-cluster).
+
+??? question "¿Qué pasa con las máquinas antiguas?"
+    Las máquinas antiguas `fiscpu1`, `usachgpu1` y `usachgpu2` dejan de atender usuarios el **30-11-2026**. Antes de esa fecha, pide tu cuenta en Chuchunco ([Solicitar una cuenta](acceso/solicitar-cuenta.md)) y copia tus datos: esas máquinas no tienen respaldo. Ver [Copiar datos](uso/almacenamiento.md#copiar-datos).
